@@ -5,7 +5,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./utils/query";
 
 const Home = lazy(() => import("./pages/Home"));
-const Profile = lazy(() => import("./pages/Profile"));
+const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
 const Subscription = lazy(() => import("./pages/subscription.jsx"));
 
 const router = createBrowserRouter([
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
         path: "/profile",
         element: (
           <Suspense>
-            <Profile />
+            <Dashboard />
           </Suspense>
         ),
       },

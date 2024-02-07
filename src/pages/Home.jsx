@@ -5,8 +5,12 @@ import { queryClient } from "../utils/query";
 
 export default function Home() {
   return (
-    <div>
-      <div className="grid max-w-7xl mx-auto">Test</div>
-    </div>
+    <main>
+      <h1 className="font-semibold">Accueil</h1>
+      <p className="text-gray-500">
+        Bienvenue sur la page d'accueil de notre application. Vous pouvez
+        naviguer sur les différentes pages en utilisant le menu de navigation.
+      </p>
+    </main>
   );
 }

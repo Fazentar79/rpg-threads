@@ -8,12 +8,11 @@ export default function Main() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col text-center h-screen">
         <div className="flex-1">
           <div className="grid grid-cols-2">
             {/* Header */}
             <Header />
-
             {/* Loading */}
             {navigation.state === "loading" ? (
               <div className="flex justify-center mt-1">Chargement...</div>
