@@ -6,11 +6,12 @@ import { queryClient } from "../utils/query";
 export default function Home() {
   return (
     <main>
-      <h1 className="font-semibold">Accueil</h1>
-      <p className="text-gray-500">
-        Bienvenue sur la page d'accueil de notre application. Vous pouvez
-        naviguer sur les différentes pages en utilisant le menu de navigation.
-      </p>
+      <div className="z-10">
+        <p>
+          Bienvenue sur la page d'accueil de notre application. Vous pouvez
+          naviguer sur les différentes pages en utilisant le menu de navigation.
+        </p>
+      </div>
     </main>
   );
 }

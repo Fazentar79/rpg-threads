@@ -6,7 +6,8 @@ import { queryClient } from "./utils/query";
 
 const Home = lazy(() => import("./pages/Home"));
 const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
-const Subscription = lazy(() => import("./pages/subscription.jsx"));
+const Subscription = lazy(() => import("./pages/Subscription.jsx"));
+const Notifications = lazy(() => import("./pages/Notifications.jsx"));
 
 const router = createBrowserRouter([
   {
@@ -22,10 +23,18 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/profile",
+        path: "/dashboard",
         element: (
           <Suspense>
             <Dashboard />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/notifications",
+        element: (
+          <Suspense>
+            <Notifications />
           </Suspense>
         ),
       },
