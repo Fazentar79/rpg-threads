@@ -11,3 +11,11 @@
 html {
     min-width: 280px;
 }
+
+.imput {
+    display: block;
+    border: 1px solid #dddfe2;
+    color: #1d2129;
+    padding: 14px 16px;
+    @apply block mb-4 text-[17px] w-full rounded-md;
+}

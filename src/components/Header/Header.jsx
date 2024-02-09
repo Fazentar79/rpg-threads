@@ -19,7 +19,7 @@ export default function Header() {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `flex items-center ${isActive ? "transition shadow-lg shadow-black" : "bg-transparent"}`
+            `flex items-center rounded-full ${isActive ? "transition shadow-lg shadow-black" : "bg-transparent"}`
           }
         >
           <svg
@@ -39,7 +39,7 @@ export default function Header() {
         <NavLink
           to="/dashboard"
           className={({ isActive }) =>
-            `flex items-center ${isActive ? "transition shadow-lg shadow-black" : "bg-transparent"}`
+            `flex items-center rounded-full ${isActive ? "transition shadow-lg shadow-black" : "bg-transparent"}`
           }
         >
           <svg
@@ -57,9 +57,9 @@ export default function Header() {
           {/*<span className="font-bold text-xl mx-4">Profil</span>*/}
         </NavLink>
         <NavLink
-          to="/notifications"
+          to="/signup"
           className={({ isActive }) =>
-            `flex items-center ${isActive ? "transition shadow-lg shadow-black" : "bg-transparent"}`
+            `flex items-center rounded-full ${isActive ? "transition shadow-lg shadow-black" : "bg-transparent"}`
           }
         >
           <svg
@@ -87,7 +87,7 @@ export default function Header() {
         <NavLink
           to="/subscription"
           className={({ isActive }) =>
-            `flex items-center ${isActive ? "shadow-lg shadow-black" : "bg-transparent"}`
+            `flex items-center rounded-full ${isActive ? "shadow-lg shadow-black" : "bg-transparent"}`
           }
         >
           <svg
