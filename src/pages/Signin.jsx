@@ -1,39 +1,39 @@
-import { Link, useNavigate } from "react-router-dom";
-import Button from "../components/Button/Button";
+import { Link } from "react-router-dom";
+import Button from "../components/Button/Button.jsx";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useState } from "react";
-import { useContext } from "react";
 import { AuthContext } from "../store/AuthProvider";
 
-export default function Signup(content, options) {
-  //Variables
-  const navigate = useNavigate();
+export default function Signin() {
+  // Variables
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { createUser } = useContext(AuthContext);
+  const { loginUser } = useContext(AuthContext);
 
-  //State
+  // State
   const [loading, setLoading] = useState(false);
 
-  const onSubmit = async (data) => {
+  // Function
+  const onSubmit = (data) => {
     if (loading) return;
 
     setLoading(true);
 
-    createUser(data.email, data.password)
+    loginUser(data.email, data.password)
       .then((userCredential) => {
         setLoading(false);
-        navigate("/");
       })
       .catch((error) => {
         setLoading(false);
         const { code, message } = error;
-        if (code === "auth/email-already-in-use") {
-          toast.error("Cet email est déjà utilisé.");
+        if (code === "auth/user-not-found") {
+          toast.error("Cet email n'existe pas.");
+        } else if (code === "auth/invalid-credential") {
+          toast.error("La combinaison est incorrecte.");
         } else {
           toast.error(code);
         }
@@ -45,7 +45,7 @@ export default function Signup(content, options) {
       <div className="flex flex-col mt-[200px] items-center">
         <div className="shadow-lg shadow-black p-7 m-5 rounded-3xl">
           <div className="text-center text-lg mb-5">
-            S'inscrire sur Rpg Threads
+            Se connecter sur Rpg Threads
           </div>
           {/* Form */}
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -77,13 +77,21 @@ export default function Signup(content, options) {
             />
             {errors.password &&
               toast(errors.password.message, { autoClose: 5000 })}
-            <Button disabled={loading}>S'inscrire</Button>
+            <Button disabled={loading}>Se connecter</Button>
           </form>
 
           {/* Pass */}
-          <div className="flex justify-center mt-5">
+          <div className="text-center mt-5">
             <div className="cursor-pointer hover:text-blue-600 duration-150">
-              <Link to="/signin">Déjà un compte ?</Link>
+              <Link to="/">Mot de passe oublié ?</Link>
+            </div>
+
+            {/* Separator */}
+            <hr className="my-5" />
+
+            {/* Sign */}
+            <div>
+              <Link to="/signup">Pas de compte ?</Link>
             </div>
           </div>
         </div>

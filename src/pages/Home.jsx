@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import Button from "../components/Button/Button.jsx";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient } from "../utils/query";
+import { AuthContext } from "../store/AuthProvider";
 
 export default function Home() {
   return (
