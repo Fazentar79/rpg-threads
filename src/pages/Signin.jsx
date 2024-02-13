@@ -42,7 +42,7 @@ export default function Signin() {
 
   return (
     <>
-      <div className="flex flex-col mt-[200px] items-center">
+      <div className="flex flex-col mt-[100px] items-center">
         <div className="shadow-lg shadow-black p-7 m-5 rounded-3xl">
           <div className="text-center text-lg mb-5">
             Se connecter sur Rpg Threads
@@ -82,15 +82,15 @@ export default function Signin() {
 
           {/* Pass */}
           <div className="text-center mt-5">
-            <div className="cursor-pointer hover:text-blue-600 duration-150">
-              <Link to="/">Mot de passe oublié ?</Link>
+            <div className="hover:text-blue-600 duration-150">
+              <Link to="/forgot-password">Mot de passe oublié ?</Link>
             </div>
 
             {/* Separator */}
             <hr className="my-5" />
 
             {/* Sign */}
-            <div>
+            <div className="hover:text-blue-600 duration-150">
               <Link to="/signup">Pas de compte ?</Link>
             </div>
           </div>

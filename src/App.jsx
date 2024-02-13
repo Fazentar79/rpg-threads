@@ -13,6 +13,7 @@ const Subscription = lazy(() => import("./pages/Subscription.jsx"));
 const Notifications = lazy(() => import("./pages/Notifications.jsx"));
 const Signup = lazy(() => import("./pages/Signup.jsx"));
 const Signin = lazy(() => import("./pages/SignIn.jsx"));
+const ForgotPassword = lazy(() => import("./pages/ForgotPassword.jsx"));
 
 export default function App() {
   const { user, loading } = useContext(AuthContext);
@@ -30,11 +31,7 @@ export default function App() {
                 {
                   path: "/",
                   index: true,
-                  element: (
-                    <Suspense>
-                      <Home />
-                    </Suspense>
-                  ),
+                  element: <Suspense>{user ? <Home /> : <Signin />}</Suspense>,
                 },
                 {
                   path: "/dashboard",
@@ -45,17 +42,13 @@ export default function App() {
                 {
                   path: "/notifications",
                   element: (
-                    <Suspense>
-                      <Notifications />
-                    </Suspense>
+                    <Suspense>{user ? <Notifications /> : <Signin />}</Suspense>
                   ),
                 },
                 {
                   path: "/subscription",
                   element: (
-                    <Suspense>
-                      <Subscription />
-                    </Suspense>
+                    <Suspense>{user ? <Subscription /> : <Signin />}</Suspense>
                   ),
                 },
                 {
@@ -74,6 +67,14 @@ export default function App() {
                     </Suspense>
                   ),
                 },
+                {
+                  path: "/forgot-password",
+                  element: (
+                    <Suspense>
+                      <ForgotPassword />
+                    </Suspense>
+                  ),
+                },
               ],
             },
           ])}
@@ -82,14 +83,3 @@ export default function App() {
     </>
   );
 }
-
-// export default function App() {
-//   return (
-//     <>
-//       <ToastContainer theme="dark" position="bottom-right" />
-//       <QueryClientProvider client={queryClient}>
-//         <RouterProvider router={router} />
-//       </QueryClientProvider>
-//     </>
-//   );
-// }

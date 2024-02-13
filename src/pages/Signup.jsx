@@ -2,8 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../components/Button/Button";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { useState } from "react";
-import { useContext } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../store/AuthProvider";
 
 export default function Signup(content, options) {
@@ -42,7 +41,7 @@ export default function Signup(content, options) {
 
   return (
     <>
-      <div className="flex flex-col mt-[200px] items-center">
+      <div className="flex flex-col mt-[100px] items-center">
         <div className="shadow-lg shadow-black p-7 m-5 rounded-3xl">
           <div className="text-center text-lg mb-5">
             S'inscrire sur Rpg Threads

@@ -6,13 +6,13 @@ import { AuthContext } from "../store/AuthProvider";
 
 export default function Home() {
   return (
-    <main>
+    <div>
       <div className="z-10">
         <p>
           Bienvenue sur la page d'accueil de notre application. Vous pouvez
           naviguer sur les différentes pages en utilisant le menu de navigation.
         </p>
       </div>
-    </main>
+    </div>
   );
 }

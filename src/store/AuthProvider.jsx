@@ -3,6 +3,9 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
+  sendPasswordResetEmail,
+  deleteUser,
+  reauthenticateWithCredential,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
@@ -33,12 +36,26 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
+  const reauthenticateUser = (user, credential) => {
+    return reauthenticateWithCredential(user, credential);
+  };
+  const passwordReset = (email) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
+  const deleteUserAccount = (user) => {
+    return deleteUser(auth, user);
+  };
+
   const authValue = {
     user,
     loading,
     logOut,
     createUser,
     loginUser,
+    reauthenticateUser,
+    passwordReset,
+    deleteUserAccount,
   };
 
   return (

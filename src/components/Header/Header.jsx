@@ -57,7 +57,7 @@ export default function Header() {
           {/*<span className="font-bold text-xl mx-4">Profil</span>*/}
         </NavLink>
         <NavLink
-          to="/signup"
+          to="/notifications"
           className={({ isActive }) =>
             `flex items-center rounded-full ${isActive ? "transition shadow-lg shadow-black" : "bg-transparent"}`
           }
