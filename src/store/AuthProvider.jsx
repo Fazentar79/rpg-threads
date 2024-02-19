@@ -37,8 +37,9 @@ const AuthProvider = ({ children }) => {
   };
 
   const reauthenticateUser = (user, credential) => {
-    return reauthenticateWithCredential(user, credential);
+    return reauthenticateWithCredential(auth, user, credential);
   };
+
   const passwordReset = (email) => {
     return sendPasswordResetEmail(auth, email);
   };

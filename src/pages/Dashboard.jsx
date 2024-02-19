@@ -1,35 +1,44 @@
 import Button from "../components/Button/Button.jsx";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../store/AuthProvider";
 import ConnectedLayout from "../layouts/ConnectedLayout.jsx";
+import { usersDb } from "../firebase";
+import { getDocs, collection } from "firebase/firestore";
 
 export default function Dashboard() {
   // Variables
   const { user } = useContext(AuthContext);
   const { logOut } = useContext(AuthContext);
   const { deleteUserAccount } = useContext(AuthContext);
-  const { reauthenticateUser } = useContext(AuthContext);
 
   // State
   const [loading, setLoading] = useState(false);
+  const [pseudo, setPseudo] = useState("");
 
   // Functions
-  const handleDeleteAccount = async (data) => {
-    if (loading) return;
+  useEffect(() => {
+    const fetchPseudo = async () => {
+      try {
+        const pseudoCollectionRef = collection(usersDb, "pseudo");
+        const pseudoSnapshot = await getDocs(pseudoCollectionRef);
 
-    setLoading(true);
-    deleteUserAccount(user)
-      .then((userCredential) => {
+        const pseudoData = pseudoSnapshot.docs.map((doc) => ({
+          pseudo: doc.pseudo,
+          ...doc.data(),
+        }));
+
+        pseudoData.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
+
+        setPseudo(pseudoData);
         setLoading(false);
-        console.log("User deleted");
-      })
-      .catch((error) => {
-        setLoading(false);
-        const { code, message } = error;
-        console.log(code, message);
-      });
-  };
+      } catch (error) {
+        console.error("Une erreur est survenue : ", error);
+      }
+    };
+
+    fetchPseudo();
+  }, []);
 
   return (
     <ConnectedLayout>
@@ -41,22 +50,22 @@ export default function Dashboard() {
               Email : <span className="font-normal">{user.email}</span>
             </p>
             <p className="font-bold">
-              Pseudo : <span className="font-normal">Pseudo</span>
+              Pseudo : <span className="font-normal"> {[pseudo]} </span>
             </p>
           </div>
           <div className="mt-10 text-center">
             <p className=" hover:text-blue-600 duration-150">
-              Modifier le Pseudo
+              <Link to="/create-pseudo">Modifier le Pseudo</Link>
             </p>
             <p className="my-3 hover:text-blue-600 duration-150">
               <Link to="/forgot-password">Modifier le mot de passe</Link>
             </p>
-            <p
-              onClick={handleDeleteAccount}
+            <Link
+              to="/delete-account"
               className="text-red-600 hover:font-bold duration-150 cursor-pointer"
             >
               Supprimer le compte
-            </p>
+            </Link>
           </div>
           <div className="mt-10">
             <Button onClick={() => logOut()}> Déconnexion </Button>

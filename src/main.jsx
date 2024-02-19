@@ -5,12 +5,15 @@ import "./index.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthProvider from "./store/AuthProvider.jsx";
+import DbProvider from "./store/DbProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <App />
-      <ToastContainer theme="dark" position="bottom-right" />
+      <DbProvider>
+        <App />
+        <ToastContainer theme="dark" position="bottom-right" />
+      </DbProvider>
     </AuthProvider>
   </React.StrictMode>,
 );

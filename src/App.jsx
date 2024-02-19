@@ -14,6 +14,8 @@ const Notifications = lazy(() => import("./pages/Notifications.jsx"));
 const Signup = lazy(() => import("./pages/Signup.jsx"));
 const Signin = lazy(() => import("./pages/SignIn.jsx"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword.jsx"));
+const DeleteUserAccount = lazy(() => import("./pages/DeleteUserAccount.jsx"));
+const CreatePseudo = lazy(() => import("./pages/CreatePseudo.jsx"));
 
 export default function App() {
   const { user, loading } = useContext(AuthContext);
@@ -72,6 +74,22 @@ export default function App() {
                   element: (
                     <Suspense>
                       <ForgotPassword />
+                    </Suspense>
+                  ),
+                },
+                {
+                  path: "/delete-account",
+                  element: (
+                    <Suspense>
+                      <DeleteUserAccount />
+                    </Suspense>
+                  ),
+                },
+                {
+                  path: "/create-pseudo",
+                  element: (
+                    <Suspense>
+                      <CreatePseudo />
                     </Suspense>
                   ),
                 },
