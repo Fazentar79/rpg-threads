@@ -6,7 +6,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { createContext, useEffect, useState } from "react";
-import { db } from "../firebase.js";
+import { usersDb } from "../firebase.js";
 
 export const DbContext = createContext(null);
 
@@ -19,8 +19,7 @@ const DbProvider = ({ children }) => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const usersCollectionRef = collection(getFirestore(db), "users");
-        const usersSnapshot = await getDocs(usersCollectionRef);
+        const usersSnapshot = await getDocs(usersDb);
 
         const usersData = usersSnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -42,8 +41,7 @@ const DbProvider = ({ children }) => {
 
   const addPseudo = async (pseudo) => {
     try {
-      const userCollectiionRef = collection(getFirestore(), "users");
-      const userDocRef = doc(userCollectiionRef, pseudo);
+      const userDocRef = doc(usersDb, pseudo);
       await setDoc(userDocRef, {
         userPseudo: pseudo,
       });

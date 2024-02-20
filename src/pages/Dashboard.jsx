@@ -1,10 +1,10 @@
 import Button from "../components/Button/Button.jsx";
-import { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../store/AuthProvider";
 import ConnectedLayout from "../layouts/ConnectedLayout.jsx";
 import { usersDb } from "../firebase";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 
 export default function Dashboard() {
   // Variables
@@ -14,30 +14,39 @@ export default function Dashboard() {
 
   // State
   const [loading, setLoading] = useState(false);
-  const [pseudo, setPseudo] = useState("");
+  const [pseudo, setPseudo] = useState([]);
+  const [creationDate, setCreationDate] = useState([]);
 
-  // Functions
+  //Functions
   useEffect(() => {
     const fetchPseudo = async () => {
       try {
-        const pseudoCollectionRef = collection(usersDb, "pseudo");
-        const pseudoSnapshot = await getDocs(pseudoCollectionRef);
+        const userSnapshot = await getDocs(usersDb);
 
-        const pseudoData = pseudoSnapshot.docs.map((doc) => ({
-          pseudo: doc.pseudo,
-          ...doc.data(),
-        }));
+        const currentUserPseudo = userSnapshot.docs.map((doc) => {
+          if (doc.data().userId === user.uid) {
+            pseudo.push(doc.data().pseudo);
+            return doc.data().pseudo;
+          }
+        });
 
-        pseudoData.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
+        const currentUserCreationDate = userSnapshot.docs.map((doc) => {
+          if (doc.data().userId === user.uid) {
+            creationDate.push(doc.data().date);
+            return doc.data().date;
+          }
+        });
 
-        setPseudo(pseudoData);
+        setPseudo(currentUserPseudo);
+        setCreationDate(currentUserCreationDate);
         setLoading(false);
       } catch (error) {
         console.error("Une erreur est survenue : ", error);
+        setLoading(false);
       }
     };
 
-    fetchPseudo();
+    fetchPseudo().then((r) => r);
   }, []);
 
   return (
@@ -50,7 +59,11 @@ export default function Dashboard() {
               Email : <span className="font-normal">{user.email}</span>
             </p>
             <p className="font-bold">
-              Pseudo : <span className="font-normal"> {[pseudo]} </span>
+              Pseudo : <span className="font-normal"> {pseudo} </span>
+            </p>
+            <p className="font-bold">
+              Date de création du compte :
+              <span className="font-normal"> {user.metadata.creationTime}</span>
             </p>
           </div>
           <div className="mt-10 text-center">
