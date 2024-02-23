@@ -1,10 +1,9 @@
+import Button from "../Button/Button.jsx";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
-import { motion } from "framer-motion";
 
 export default function MakeForm({
   onFormSubmittedHandler,
-  pseudo,
   message,
   image,
   threads,
@@ -12,15 +11,15 @@ export default function MakeForm({
 }) {
   useEffect(() => {
     if (threads) {
-      pseudo.current.value = threads.pseudo;
-      message.current.value = threads.message;
+      message.current.value = threads.message || "";
       image.current.value = threads.image.other.home.front_default || "";
     }
   }, [threads]);
 
-  const onBeforeSubmitHandler = () => {
+  const onBeforeSubmitHandler = (e) => {
+    e.preventDefault();
     let isValid = true;
-    if (!pseudo.current.value || !message.current.value) {
+    if (!message.current.value) {
       isValid = false;
     }
 
@@ -34,19 +33,10 @@ export default function MakeForm({
   return (
     <form onSubmit={(e) => onBeforeSubmitHandler(e)}>
       <div className="mb-5">
-        <label htmlFor="pseudo">Pseudo</label>
-        <input
-          type="text"
-          id="pseudo"
-          ref={pseudo}
-          placeholder="Pseudo"
-          className="w-full border p-2 rounded-lg"
-        />
-      </div>
-      <div className="mb-5">
         <label htmlFor="message">Message</label>
         <textarea
           id="message"
+          required={true}
           ref={message}
           placeholder="Message"
           className="w-full border p-2 rounded-lg"
@@ -62,20 +52,9 @@ export default function MakeForm({
           ref={image}
         />
       </div>
-      <motion.button
-        type="submit"
-        className="w-full bg-blue-500 text-white p-3 rounded-lg"
-        onClick={(e) => onBeforeSubmitHandler(e)}
-        initial={{
-          opacity: 0.8,
-        }}
-        whileInView={{
-          opacity: 1,
-          scale: 1.1,
-        }}
-      >
-        {threads ? "Modifier le threads" : "Ajouter un threads"}
-      </motion.button>
+      <Button type="submit" onClick={(e) => onBeforeSubmitHandler(e)}>
+        Ajouter un threads
+      </Button>
     </form>
   );
 }

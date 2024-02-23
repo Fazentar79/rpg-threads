@@ -23,3 +23,5 @@ export default app;
 export const db = getFirestore(app);
 
 export const usersDb = collection(db, "users");
+
+export const threadsDb = collection(db, "threads");

@@ -5,50 +5,23 @@ import {
   getDocs,
   setDoc,
 } from "firebase/firestore";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useContext } from "react";
 import { usersDb } from "../firebase.js";
+import { AuthContext } from "./AuthProvider";
 
 export const DbContext = createContext(null);
 
+//Variables
+// const { user } = useContext(AuthContext);
+
 const DbProvider = ({ children }) => {
-  const [users, setUsers] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [pseudo, setPseudo] = useState([]);
+  const [creationDate, setCreationDate] = useState([]);
   const [threads, setThreads] = useState(null);
   const [loadingUsers, setLoadingUsers] = useState(true);
 
   // users
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const usersSnapshot = await getDocs(usersDb);
-
-        const usersData = usersSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        usersData.sort((a, b) => a.pseudo.localeCompare(b.pseudo));
-
-        setUsers(usersData);
-        setLoadingUsers(false);
-      } catch (error) {
-        console.error("Une erreur est survenue : ", error.message);
-        setLoadingUsers(false);
-      }
-    };
-
-    fetchUsers();
-  }, []);
-
-  const addPseudo = async (pseudo) => {
-    try {
-      const userDocRef = doc(usersDb, pseudo);
-      await setDoc(userDocRef, {
-        userPseudo: pseudo,
-      });
-    } catch (error) {
-      console.error("Une erreur est survenue : ", error.message);
-    }
-  };
 
   // Threads
   useEffect(() => {
@@ -62,8 +35,6 @@ const DbProvider = ({ children }) => {
           id: doc.id,
           ...doc.data(),
         }));
-
-        threadsData.sort((a, b) => b.timestamp.seconds - a.timestamp.seconds);
 
         setThreads(threadsData);
       } catch (error) {
@@ -89,9 +60,9 @@ const DbProvider = ({ children }) => {
 
   const dbValue = {
     users,
+    pseudo,
     threads,
     loadingUsers,
-    addPseudo,
     addThread,
   };
 

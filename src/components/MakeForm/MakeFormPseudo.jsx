@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import Button from "../Button/Button.jsx";
 
 export default function MakeFormPseudo({
   onFormSubmittedHandler,
@@ -30,7 +31,6 @@ export default function MakeFormPseudo({
   return (
     <form onSubmit={(e) => onBeforeSubmitHandler(e)}>
       <div className="mb-5">
-        <label htmlFor="pseudo">Pseudo</label>
         <input
           type="text"
           id="pseudo"
@@ -40,6 +40,9 @@ export default function MakeFormPseudo({
           className="w-full border p-2 rounded-lg"
         />
       </div>
+      <Button type="submit" onClick={(e) => onBeforeSubmitHandler(e)}>
+        Envoyer le nouveau pseudo
+      </Button>
     </form>
   );
 }

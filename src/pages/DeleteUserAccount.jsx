@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
 import Button from "../components/Button/Button.jsx";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { AuthContext } from "../store/AuthProvider";
+import { deleteDoc, doc } from "firebase/firestore";
 
 export default function DeleteUserAccount() {
   // Variables
@@ -22,41 +22,23 @@ export default function DeleteUserAccount() {
   // Functions
 
   const handleReauthenticate = async (data) => {
-    if (loading) return;
-
     setLoading(true);
-    reauthenticateUser(data.user, data.credential)
-      .then((UserCredential) => {
-        setLoading(false);
-        console.log("User reauthenticated");
-      })
-      .catch((error) => {
-        setLoading(false);
-        const { code, message } = error;
-        console.log(code, message);
-      });
-  };
 
-  // const handleDeleteAccount = async (data) => {
-  //   if (loading) return;
-  //
-  //   setLoading(true);
-  //   deleteUserAccount(data.user)
-  //     .then(() => {
-  //       setLoading(false);
-  //       console.log("User deleted");
-  //     })
-  //     .catch((error) => {
-  //       setLoading(false);
-  //       const { code, message } = error;
-  //       console.log(code, message);
-  //     });
-  // };
+    try {
+      await reauthenticateUser(data.password);
+      await deleteUserAccount();
+      await deleteDoc(doc(usersDb, user.uid));
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      toast.error("Une erreur est survenue : " + error.message);
+    }
+  };
 
   return (
     <div>
       <div className="max-w-3xl m-auto">
-        <h1 className="my-10 text-center text-3xl font-bold">
+        <h1 className="my-10 text-center sm:text-3xl font-bold">
           Rentrez votre mot de passe pour supprimer votre compte :
         </h1>
         <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5">

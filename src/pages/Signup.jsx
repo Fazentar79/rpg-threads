@@ -4,8 +4,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useState, useContext } from "react";
 import { AuthContext } from "../store/AuthProvider";
-// import { DbContext } from "../store/DbProvider.jsx";
-import { addDoc, serverTimestamp } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { usersDb } from "../firebase";
 
 export default function Signup(content, options) {
@@ -28,7 +27,7 @@ export default function Signup(content, options) {
 
     createUser(data.email, data.password)
       .then((userCredential) => {
-        addDoc(usersDb, {
+        setDoc(doc(usersDb, userCredential.user.uid), {
           pseudo: data.pseudo,
           email: data.email,
           userId: userCredential.user.uid,

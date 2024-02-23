@@ -18,8 +18,9 @@ export default function Dashboard() {
   const [creationDate, setCreationDate] = useState([]);
 
   //Functions
+
   useEffect(() => {
-    const fetchPseudo = async () => {
+    const fetchUsers = async () => {
       try {
         const userSnapshot = await getDocs(usersDb);
 
@@ -46,7 +47,7 @@ export default function Dashboard() {
       }
     };
 
-    fetchPseudo().then((r) => r);
+    fetchUsers().then((r) => r);
   }, []);
 
   return (
@@ -62,13 +63,13 @@ export default function Dashboard() {
               Pseudo : <span className="font-normal"> {pseudo} </span>
             </p>
             <p className="font-bold">
-              Date de création du compte :
+              Création du compte :
               <span className="font-normal"> {user.metadata.creationTime}</span>
             </p>
           </div>
           <div className="mt-10 text-center">
             <p className=" hover:text-blue-600 duration-150">
-              <Link to="/create-pseudo">Modifier le Pseudo</Link>
+              <Link to="/updated-pseudo">Modifier le Pseudo</Link>
             </p>
             <p className="my-3 hover:text-blue-600 duration-150">
               <Link to="/forgot-password">Modifier le mot de passe</Link>
