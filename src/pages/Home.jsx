@@ -1,12 +1,13 @@
-import { useEffect, useState, useContext, useRef } from "react";
+import { useEffect, useState, useContext } from "react";
 import ButtonPost from "../components/Button/ButtonPost.jsx";
-import { getDocs, query } from "firebase/firestore";
+import { getDocs } from "firebase/firestore";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
-import { threadsDb, usersDb } from "../firebase";
+import { threadsDb } from "../firebase";
 import { AuthContext } from "../store/AuthProvider";
 import { Link } from "react-router-dom";
+import Messagecard from "../components/Messagecard/Messagecard";
 
 export default function Home() {
   //Variables
@@ -14,45 +15,24 @@ export default function Home() {
 
   //States
   const [loading, setLoading] = useState(false);
-  const [pseudo, setPseudo] = useState([]);
 
   // // Functions
 
-  // //Get pseudo
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const userSnapshot = await getDocs(usersDb);
-        const currentUserPseudo = userSnapshot.docs.map((doc) => {
-          if (doc.data().userId === user.uid) {
-            pseudo.push(doc.data().pseudo);
-            return doc.data().pseudo;
-          }
-        });
-        setPseudo(currentUserPseudo);
-        setLoading(false);
-      } catch (error) {
-        console.error("Une erreur est survenue : ", error);
-        setLoading(false);
-      }
-    };
-    fetchUsers().then((r) => r);
-  }, []);
-
   // Get all threads
 
-  const fetchThreads = async () => {
+  const fetchThreads = async (threads) => {
     try {
       const threadsSnapshot = await getDocs(threadsDb);
       threads.current = threadsSnapshot.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       setLoading(false);
-      console.log(threads.current);
     } catch (error) {
       console.error("Une erreur est survenue : ", error);
       setLoading(false);
     }
+
+    return threads.current;
   };
 
   const {
@@ -88,7 +68,7 @@ export default function Home() {
         className="max-w-7xl m-auto p-5"
       >
         {/*// show all threads*/}
-        {threads?.map((thread, index) => (
+        {threads?.map((threads, index) => (
           <motion.div
             key={index}
             variants={{
@@ -98,23 +78,16 @@ export default function Home() {
             transition={{
               type: "spring",
             }}
+            className="m-auto w-full max-w-3xl"
           >
-            <div className="flex justify-between">
-              <div>
-                <p>{thread.message}</p>
-                <p>{thread.date}</p>
-              </div>
-              <div>
-                <p>{pseudo}</p>
-              </div>
-            </div>
+            <Messagecard threads={threads} />
           </motion.div>
         ))}
       </motion.div>
 
       {isLoading && <div className="text-center">Chargement...</div>}
 
-      <div className="flex justify-end align-bottom">
+      <div className="flex justify-end align-bottom relative">
         <ButtonPost disabled={loading}>
           <Link to="/add-thread">
             <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">

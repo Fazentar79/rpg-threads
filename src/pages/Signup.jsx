@@ -31,7 +31,14 @@ export default function Signup(content, options) {
           pseudo: data.pseudo,
           email: data.email,
           userId: userCredential.user.uid,
-          date: serverTimestamp(),
+          date: new Date().toLocaleString("fr-FR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            second: "numeric",
+          }),
         });
         setLoading(false);
         navigate("/dashboard");

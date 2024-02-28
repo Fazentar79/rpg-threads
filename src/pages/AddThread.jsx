@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState, useContext } from "react";
+import { useRef, useState, useContext } from "react";
 import MakeForm from "../components/MakeForm/MakeForm.jsx";
 import { useNavigate } from "react-router-dom";
-import { getDocs, doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { doc, addDoc, getDocs } from "firebase/firestore";
 import { threadsDb, usersDb } from "../firebase";
 import { AuthContext } from "../store/AuthProvider";
 
@@ -12,11 +12,31 @@ export default function AddThread() {
 
   //States
   const [loading, setLoading] = useState(false);
+  const [pseudo, setPseudo] = useState([]);
   const [createNewThread, setCreateNewThread] = useState(false);
 
   // Refs
   const image = useRef("");
   const message = useRef("");
+
+  const fetchUserPseudo = async () => {
+    try {
+      const userSnapshot = await getDocs(usersDb);
+
+      const currentUserPseudo = userSnapshot.docs.map((doc) => {
+        if (doc.data().userId === user.uid) {
+          pseudo.push(doc.data().pseudo);
+          return doc.data().pseudo;
+        }
+      });
+      setLoading(false);
+    } catch (error) {
+      console.error("Une erreur est survenue : ", error);
+      setLoading(false);
+    }
+
+    onCreateNewThread(pseudo);
+  };
 
   //Post a new thread
   const onCreateNewThread = async () => {
@@ -24,6 +44,7 @@ export default function AddThread() {
       const threadsDocRef = doc(threadsDb);
 
       await addDoc(threadsDb, {
+        pseudo: pseudo,
         image: image.current.value,
         message: message.current.value,
         date: new Date().toLocaleString("fr-FR", {
@@ -35,7 +56,6 @@ export default function AddThread() {
           second: "numeric",
         }),
       });
-      console.log("Document successfully written!");
       setLoading(false);
       navigate("/");
     } catch (error) {
@@ -54,7 +74,7 @@ export default function AddThread() {
           disabled={loading}
           image={image}
           message={message}
-          onFormSubmittedHandler={onCreateNewThread}
+          onFormSubmittedHandler={fetchUserPseudo}
         />
       </div>
     </div>

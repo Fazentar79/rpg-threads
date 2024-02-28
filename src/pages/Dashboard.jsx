@@ -3,8 +3,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../store/AuthProvider";
 import ConnectedLayout from "../layouts/ConnectedLayout.jsx";
-import { usersDb } from "../firebase";
-import { getDocs } from "firebase/firestore";
+import { threadsDb, usersDb } from "../firebase";
+import { getDocs, query, where, orderBy } from "firebase/firestore";
+import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import Messagecard from "../components/Messagecard/Messagecard.jsx";
 
 export default function Dashboard() {
   // Variables
@@ -12,8 +16,8 @@ export default function Dashboard() {
   const { logOut } = useContext(AuthContext);
   const { deleteUserAccount } = useContext(AuthContext);
 
-  // State
-  const [loading, setLoading] = useState(false);
+  // States
+  const [loading, setLoading] = useState(true);
   const [pseudo, setPseudo] = useState([]);
   const [creationDate, setCreationDate] = useState([]);
 
@@ -47,14 +51,70 @@ export default function Dashboard() {
       }
     };
 
-    fetchUsers().then((r) => r);
+    fetchUsers().then(() => {
+      fetchAllThreadsUser(pseudo).then((r) => r);
+    });
   }, []);
+
+  const fetchAllThreadsUser = async (threads) => {
+    try {
+      const threadsQuery = query(
+        threadsDb,
+        where("pseudo", "==", pseudo),
+        orderBy("date", "desc"),
+      );
+      const threadsSnapshot = await getDocs(threadsQuery);
+      threads.threadsUser = threadsSnapshot.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() };
+      });
+      setLoading(false);
+      console.log([threads.threadsUser]);
+    } catch (error) {
+      console.error("Une erreur est survenue : ", error);
+      setLoading(false);
+    }
+
+    return [...threads.threadsUser];
+  };
+
+  const { threads, isLoading, isError, error } = useQuery({
+    queryKey: ["threads"],
+    queryFn: fetchAllThreadsUser,
+  });
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(error);
+    }
+  }, [error, isError]);
 
   return (
     <ConnectedLayout>
-      <div className="max-w-3xl m-auto">
+      <motion.div
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.15,
+            },
+          },
+        }}
+        initial="hidden"
+        animate="visible"
+        className="max-w-3xl m-auto"
+      >
         <h1 className="my-10 text-center text-3xl font-bold">Profil</h1>
-        <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, scale: 0.9 },
+            visible: { opacity: 1, scale: [0.9, 1.04, 0.9, 1] },
+          }}
+          transition={{
+            type: "spring",
+          }}
+          className="shadow-2xl shadow-black rounded-3xl p-5 m-5"
+        >
           <div className="text-center">
             <p className="font-bold">
               Email : <span className="font-normal">{user.email}</span>
@@ -64,7 +124,7 @@ export default function Dashboard() {
             </p>
             <p className="font-bold">
               Création du compte :
-              <span className="font-normal"> {user.metadata.creationTime}</span>
+              <span className="font-normal"> {creationDate}</span>
             </p>
           </div>
           <div className="mt-10 text-center">
@@ -84,14 +144,30 @@ export default function Dashboard() {
           <div className="mt-10">
             <Button onClick={() => logOut()}> Déconnexion </Button>
           </div>
-        </div>
+        </motion.div>
         <div>
           <h2 className="my-10 text-center text-2xl font-bold">Mes Threads</h2>
-          <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5 flex flex-col justify-center items-center">
-            <p>Vous n'avez pas encore de threads</p>
-          </div>
+
+          {isLoading && <div className="text-center">Chargement...</div>}
+
+          {/*// show all threads for user connected*/}
+          {threads?.map((threads, index) => (
+            <motion.div
+              key={index}
+              variants={{
+                hidden: { opacity: 0, scale: 0.9 },
+                visible: { opacity: 1, scale: [0.9, 1.04, 0.9, 1] },
+              }}
+              transition={{
+                type: "spring",
+              }}
+              className="m-auto w-full max-w-3xl"
+            >
+              <Messagecard threads={threads} />
+            </motion.div>
+          ))}
         </div>
-      </div>
+      </motion.div>
     </ConnectedLayout>
   );
 }
