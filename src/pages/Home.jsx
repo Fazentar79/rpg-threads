@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, useRef } from "react";
 import ButtonPost from "../components/Button/ButtonPost.jsx";
 import { getDocs, orderBy } from "firebase/firestore";
 import { motion } from "framer-motion";
@@ -15,6 +15,9 @@ export default function Home() {
 
   //States
   const [loading, setLoading] = useState(false);
+
+  // Refs
+  const ref = useRef(null);
 
   // // Functions
 
@@ -80,7 +83,7 @@ export default function Home() {
             }}
             className="m-auto w-full max-w-3xl"
           >
-            <Messagecard threads={threads} />
+            <Messagecard key={threads.image} ref={ref} threads={threads} />
           </motion.div>
         ))}
       </motion.div>

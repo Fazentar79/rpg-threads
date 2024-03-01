@@ -34,7 +34,8 @@ export default function Messagecard({ ref, threads, ...props }) {
   }, []);
 
   useEffect(() => {
-    if (threads.image) {
+    const regex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpg|gif|png)/;
+    if (threads.image && regex.test(threads.image)) {
       setShowImage(true);
     }
   }, [threads.image]);

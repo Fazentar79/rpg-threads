@@ -1,5 +1,5 @@
 import Button from "../components/Button/Button.jsx";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../store/AuthProvider";
 import ConnectedLayout from "../layouts/ConnectedLayout.jsx";
@@ -20,6 +20,9 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [pseudo, setPseudo] = useState("");
   const [creationDate, setCreationDate] = useState("");
+
+  // Refs
+  const ref = useRef(null);
 
   //Functions
 
@@ -160,7 +163,7 @@ export default function Dashboard() {
               }}
               className="m-auto w-full max-w-3xl"
             >
-              <Messagecard threads={thread} />
+              <Messagecard key={thread.image} ref={ref} threads={thread} />
             </motion.div>
           ))}
         </div>
