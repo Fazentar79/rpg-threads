@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import ButtonPost from "../components/Button/ButtonPost.jsx";
-import { getDocs } from "firebase/firestore";
+import { getDocs, orderBy } from "firebase/firestore";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
@@ -22,7 +22,7 @@ export default function Home() {
 
   const fetchThreads = async (threads) => {
     try {
-      const threadsSnapshot = await getDocs(threadsDb);
+      const threadsSnapshot = await getDocs(threadsDb, orderBy("date", "desc"));
       threads.current = threadsSnapshot.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
@@ -41,7 +41,7 @@ export default function Home() {
     isError,
     error,
   } = useQuery({
-    queryKey: "threads",
+    queryKey: ["threads"],
     queryFn: fetchThreads,
   });
 

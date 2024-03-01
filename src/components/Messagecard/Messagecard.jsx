@@ -1,5 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../../store/AuthProvider";
+import { getDocs } from "firebase/firestore";
+import { usersDb } from "../../firebase.js";
 
 export default function Messagecard({ ref, threads, ...props }) {
   //Variables
@@ -8,6 +10,28 @@ export default function Messagecard({ ref, threads, ...props }) {
   //States
   const [loading, setLoading] = useState(true);
   const [showImage, setShowImage] = useState(false);
+  const [pseudo, setPseudo] = useState([]);
+
+  useEffect(() => {
+    const fetchUserPseudo = async () => {
+      try {
+        const userSnapshot = await getDocs(usersDb);
+
+        const currentUserPseudo = userSnapshot.docs.map((doc) => {
+          if (doc.data().userId === user.userId) {
+            return doc.data().pseudo;
+          }
+        });
+        setLoading(false);
+        setPseudo(currentUserPseudo);
+      } catch (error) {
+        console.error("Une erreur est survenue : ", error);
+        setLoading(false);
+      }
+    };
+
+    fetchUserPseudo().then();
+  }, []);
 
   useEffect(() => {
     if (threads.image) {

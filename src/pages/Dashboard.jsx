@@ -18,8 +18,8 @@ export default function Dashboard() {
 
   // States
   const [loading, setLoading] = useState(true);
-  const [pseudo, setPseudo] = useState([]);
-  const [creationDate, setCreationDate] = useState([]);
+  const [pseudo, setPseudo] = useState("");
+  const [creationDate, setCreationDate] = useState("");
 
   //Functions
 
@@ -30,14 +30,12 @@ export default function Dashboard() {
 
         const currentUserPseudo = userSnapshot.docs.map((doc) => {
           if (doc.data().userId === user.uid) {
-            pseudo.push(doc.data().pseudo);
             return doc.data().pseudo;
           }
         });
 
         const currentUserCreationDate = userSnapshot.docs.map((doc) => {
           if (doc.data().userId === user.uid) {
-            creationDate.push(doc.data().date);
             return doc.data().date;
           }
         });
@@ -51,33 +49,32 @@ export default function Dashboard() {
       }
     };
 
-    fetchUsers().then(() => {
-      fetchAllThreadsUser(pseudo).then((r) => r);
-    });
+    fetchUsers().then();
   }, []);
 
-  const fetchAllThreadsUser = async (threads) => {
+  // Get all threads for user connected
+
+  const fetchAllThreadsUser = async () => {
     try {
       const threadsQuery = query(
         threadsDb,
-        where("pseudo", "==", pseudo),
+        where("userId", "==", user.uid),
         orderBy("date", "desc"),
       );
       const threadsSnapshot = await getDocs(threadsQuery);
-      threads.threadsUser = threadsSnapshot.docs.map((doc) => {
+      const threadsUser = threadsSnapshot.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
       setLoading(false);
-      console.log([threads.threadsUser]);
+      return threadsUser;
     } catch (error) {
       console.error("Une erreur est survenue : ", error);
       setLoading(false);
+      return [];
     }
-
-    return [...threads.threadsUser];
   };
 
-  const { threads, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["threads"],
     queryFn: fetchAllThreadsUser,
   });
@@ -151,7 +148,7 @@ export default function Dashboard() {
           {isLoading && <div className="text-center">Chargement...</div>}
 
           {/*// show all threads for user connected*/}
-          {threads?.map((threads, index) => (
+          {data?.map((thread, index) => (
             <motion.div
               key={index}
               variants={{
@@ -163,7 +160,7 @@ export default function Dashboard() {
               }}
               className="m-auto w-full max-w-3xl"
             >
-              <Messagecard threads={threads} />
+              <Messagecard threads={thread} />
             </motion.div>
           ))}
         </div>

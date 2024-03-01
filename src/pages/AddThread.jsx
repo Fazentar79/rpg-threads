@@ -45,6 +45,7 @@ export default function AddThread() {
 
       await addDoc(threadsDb, {
         pseudo: pseudo,
+        userId: user.uid,
         image: image.current.value,
         message: message.current.value,
         date: new Date().toLocaleString("fr-FR", {
