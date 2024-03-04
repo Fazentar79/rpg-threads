@@ -1,9 +1,10 @@
 import MakeFormPseudo from "../components/MakeForm/MakeFormPseudo.jsx";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../store/AuthProvider";
 import { usersDb } from "../firebase.js";
 import { doc, setDoc } from "firebase/firestore";
+import ButtonCancel from "../components/Button/ButtonCancel.jsx";
 
 export default function UpdatedPseudo() {
   // Variable
@@ -44,6 +45,19 @@ export default function UpdatedPseudo() {
   return (
     <>
       <div className="max-w-3xl m-auto">
+        <Link to="/dashboard" className="absolute left-0 top-[100px] ms-10">
+          <ButtonCancel>
+            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M6 12H18M6 12L11 7M6 12L11 17"
+                stroke="#000000"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </ButtonCancel>
+        </Link>
         <h1 className="text-3xl font-bold text-center my-10">
           Changer de pseudo
         </h1>

@@ -1,4 +1,5 @@
 import Button from "../components/Button/Button.jsx";
+import ButtonCancel from "../components/Button/ButtonCancel.jsx";
 import { useContext, useState } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -68,6 +69,20 @@ export default function PasswordReset() {
 
   return (
     <div className="max-w-3xl m-auto">
+      <Link to="/" className="absolute left-0 top-[100px] ms-10">
+        <ButtonCancel>
+          <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
+            <path
+              d="M6 12H18M6 12L11 7M6 12L11 17"
+              stroke="#000000"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </ButtonCancel>
+      </Link>
+
       {successMessage ? (
         <div>
           <h2 className="text-center mt-[100px] font-bold text-2xl">

@@ -17,6 +17,7 @@ const ForgotPassword = lazy(() => import("./pages/ForgotPassword.jsx"));
 const DeleteUserAccount = lazy(() => import("./pages/DeleteUserAccount.jsx"));
 const UpdatedPseudo = lazy(() => import("./pages/updatedPseudo.jsx"));
 const AddThread = lazy(() => import("./pages/AddThread.jsx"));
+const UpdatedThread = lazy(() => import("./pages/UpdatedThread.jsx"));
 
 export default function App() {
   const { user, loading } = useContext(AuthContext);
@@ -91,6 +92,14 @@ export default function App() {
                   element: (
                     <Suspense>
                       <UpdatedPseudo />
+                    </Suspense>
+                  ),
+                },
+                {
+                  path: "/updated-thread/:id",
+                  element: (
+                    <Suspense>
+                      <UpdatedThread />
                     </Suspense>
                   ),
                 },
