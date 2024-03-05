@@ -45,7 +45,7 @@ export default function PasswordReset() {
 
   return (
     <div className="max-w-3xl m-auto">
-      <Link to="/dashboard" className="absolute left-0 top-[100px] ms-10">
+      <Link to="/dashboard">
         <ButtonCancel>
           <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
             <path

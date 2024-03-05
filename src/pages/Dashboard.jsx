@@ -146,26 +146,44 @@ export default function Dashboard() {
           </div>
         </motion.div>
         <div>
-          <h2 className="my-10 text-center text-2xl font-bold">Mes Threads</h2>
+          <h2 className="mt-10 text-center text-2xl font-bold">Mes Threads</h2>
 
           {isLoading && <div className="text-center">Chargement...</div>}
+          {data?.length === 0 && (
+            <div className="text-center mt-10">Aucun thread à afficher</div>
+          )}
 
-          {/*// show all threads for user connected*/}
-          {data?.map((thread, index) => (
-            <motion.div
-              key={index}
-              variants={{
-                hidden: { opacity: 0, scale: 0.9 },
-                visible: { opacity: 1, scale: [0.9, 1.04, 0.9, 1] },
-              }}
-              transition={{
-                type: "spring",
-              }}
-              className="m-auto w-full max-w-3xl"
-            >
-              <Messagecard key={thread.image} ref={ref} threads={thread} />
-            </motion.div>
-          ))}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.15,
+                },
+              },
+            }}
+            initial="hidden"
+            animate="visible"
+            className="max-w-7xl m-auto p-5"
+          >
+            {/*// show all threads for user connected*/}
+            {data?.map((thread, index) => (
+              <motion.div
+                key={index}
+                variants={{
+                  hidden: { opacity: 0, scale: 0.9 },
+                  visible: { opacity: 1, scale: [0.9, 1.04, 0.9, 1] },
+                }}
+                transition={{
+                  type: "spring",
+                }}
+                className="m-auto w-full max-w-3xl"
+              >
+                <Messagecard key={thread.image} ref={ref} threads={thread} />
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </motion.div>
     </ConnectedLayout>

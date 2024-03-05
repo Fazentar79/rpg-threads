@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import ButtonPost from "../components/Button/ButtonPost.jsx";
-import { getDocs, orderBy } from "firebase/firestore";
+import { getDocs, orderBy, query } from "firebase/firestore";
 import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
@@ -25,7 +25,8 @@ export default function Home() {
 
   const fetchThreads = async (threads) => {
     try {
-      const threadsSnapshot = await getDocs(threadsDb, orderBy("date", "desc"));
+      const threadsQuery = query(threadsDb, orderBy("date", "desc"));
+      const threadsSnapshot = await getDocs(threadsQuery);
       threads.current = threadsSnapshot.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
       });
@@ -56,7 +57,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="flex justify-end sticky">
+      <div className="flex justify-end">
         <ButtonPost disabled={loading}>
           <Link to="/add-thread">
             <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">

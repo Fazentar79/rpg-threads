@@ -1,6 +1,6 @@
 import { useRef, useState, useContext } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { threadsDb } from "../firebase";
 import { AuthContext } from "../store/AuthProvider";
 import MakeFormThread from "../components/MakeForm/MakeFormThread.jsx";
@@ -33,14 +33,7 @@ export default function UpdatedThread() {
         threadsDocRef,
         {
           message: message.current.value,
-          date: new Date().toLocaleString("fr-FR", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "numeric",
-            minute: "numeric",
-            second: "numeric",
-          }),
+          date: serverTimestamp(),
         },
         { merge: true },
       );
@@ -54,7 +47,7 @@ export default function UpdatedThread() {
 
   return (
     <div className="max-w-3xl m-auto">
-      <Link to="/" className="absolute left-0 top-[100px] ms-10">
+      <Link to="/">
         <ButtonCancel>
           <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
             <path
@@ -68,7 +61,7 @@ export default function UpdatedThread() {
         </ButtonCancel>
       </Link>
       <h1 className="text-3xl font-bold text-center my-10">
-        Modifier le thread
+        Modifier ou supprimer le thread
       </h1>
       <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5">
         <MakeFormThread

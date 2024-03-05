@@ -1,7 +1,7 @@
 import { useRef, useState, useContext } from "react";
 import MakeForm from "../components/MakeForm/MakeForm.jsx";
 import { Link, useNavigate } from "react-router-dom";
-import { doc, addDoc, getDocs } from "firebase/firestore";
+import { doc, addDoc, getDocs, serverTimestamp } from "firebase/firestore";
 import { threadsDb, usersDb } from "../firebase";
 import { AuthContext } from "../store/AuthProvider";
 import ButtonCancel from "../components/Button/ButtonCancel.jsx";
@@ -49,17 +49,11 @@ export default function AddThread() {
         userId: user.uid,
         image: image.current.value,
         message: message.current.value,
-        date: new Date().toLocaleString("fr-FR", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "numeric",
-          minute: "numeric",
-          second: "numeric",
-        }),
+        date: serverTimestamp(),
       });
       setLoading(false);
       navigate("/");
+      window.location.reload();
     } catch (error) {
       console.error("Une erreur est survenue : ", error);
       setLoading(false);
@@ -68,7 +62,7 @@ export default function AddThread() {
 
   return (
     <div className="max-w-3xl m-auto">
-      <Link to="/" className="absolute left-0 top-[100px] ms-10">
+      <Link to="/">
         <ButtonCancel>
           <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
             <path
