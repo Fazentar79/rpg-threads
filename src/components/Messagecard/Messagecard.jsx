@@ -68,7 +68,7 @@ export default function Messagecard({ ref, threads, ...props }) {
   return (
     <div
       ref={ref}
-      className={`flex flex-col p-5 my-10 rounded-3xl shadow-2xl shadow-black `}
+      className={`flex flex-col p-5 my-10 rounded-3xl shadow-2xl shadow-black bg-white`}
     >
       <div className="flex flex-col gap-1">
         <span className="flex justify-between text-lg font-bold py-5">

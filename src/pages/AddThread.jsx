@@ -61,7 +61,7 @@ export default function AddThread() {
   };
 
   return (
-    <div className="max-w-3xl m-auto">
+    <div className="max-w-3xl m-auto bg-white">
       <Link to="/">
         <ButtonCancel>
           <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
