@@ -7,7 +7,8 @@ import {
   deleteUser,
   reauthenticateWithCredential,
 } from "firebase/auth";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState, useMemo } from "react";
+import PropTypes from "prop-types";
 import { auth } from "../firebase";
 
 export const AuthContext = createContext(null);
@@ -48,20 +49,36 @@ const AuthProvider = ({ children }) => {
     return deleteUser(auth, user);
   };
 
-  const authValue = {
-    user,
-    loading,
-    logOut,
-    createUser,
-    loginUser,
-    reauthenticateUser,
-    passwordReset,
-    deleteUserAccount,
-  };
+  const authValue = useMemo(
+    () => ({
+      user,
+      loading,
+      logOut,
+      createUser,
+      loginUser,
+      reauthenticateUser,
+      passwordReset,
+      deleteUserAccount,
+    }),
+    [
+      user,
+      loading,
+      logOut,
+      createUser,
+      loginUser,
+      reauthenticateUser,
+      passwordReset,
+      deleteUserAccount,
+    ],
+  );
 
   return (
     <AuthContext.Provider value={authValue}>{children}</AuthContext.Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default AuthProvider;

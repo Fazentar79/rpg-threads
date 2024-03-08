@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-export default function Button({ children, onClick, disabled }) {
+export default function ButtonSubscription({ children, onClick, disabled }) {
   return (
     <button
       onClick={onClick}
@@ -12,7 +12,7 @@ export default function Button({ children, onClick, disabled }) {
   );
 }
 
-Button.propTypes = {
+ButtonSubscription.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,

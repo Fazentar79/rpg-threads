@@ -3,29 +3,29 @@ import { toast } from "react-toastify";
 import Button from "../Button/Button.jsx";
 import PropTypes from "prop-types";
 
-export default function MakeFormPseudo({
+export default function MakeFormAvatar({
   onFormSubmittedHandler,
-  pseudo,
-  pseudoAccount,
+  avatar,
+  avatarAccount,
   ...props
 }) {
   useEffect(() => {
-    if (pseudoAccount) {
-      pseudo.current.value = pseudoAccount.pseudo;
+    if (avatarAccount) {
+      avatar.current.value = avatarAccount.avatar;
     }
-  }, [pseudoAccount]);
+  }, [avatarAccount]);
 
   const onBeforeSubmitHandler = (e) => {
     e.preventDefault();
     let isValid = true;
-    if (!pseudo.current.value) {
+    if (!avatar.current.value) {
       isValid = false;
     }
 
     if (isValid) {
       onFormSubmittedHandler();
     } else {
-      toast.error("Veuillez remplir tous les champs du formulaire.");
+      toast.error("Veuillez ajouter un Avatar.");
     }
   };
 
@@ -34,22 +34,22 @@ export default function MakeFormPseudo({
       <div className="mb-5">
         <input
           type="text"
-          id="pseudo"
+          id="avatar"
           required={true}
-          ref={pseudo}
-          placeholder="Pseudo"
+          ref={avatar}
+          placeholder="Avatar"
           className="w-full border p-2 rounded-lg"
         />
       </div>
       <Button type="submit" onClick={(e) => onBeforeSubmitHandler(e)}>
-        Envoyer le nouveau pseudo
+        Envoyer l' avatar
       </Button>
     </form>
   );
 }
 
-MakeFormPseudo.propTypes = {
+MakeFormAvatar.propTypes = {
   onFormSubmittedHandler: PropTypes.func.isRequired,
-  pseudo: PropTypes.object.isRequired,
-  pseudoAccount: PropTypes.object.isRequired,
+  avatar: PropTypes.object.isRequired,
+  avatarAccount: PropTypes.object.isRequired,
 };

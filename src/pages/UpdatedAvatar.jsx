@@ -1,12 +1,12 @@
-import MakeFormPseudo from "../components/MakeForm/MakeFormPseudo.jsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../store/AuthProvider";
 import { usersDb } from "../firebase.js";
 import { doc, setDoc } from "firebase/firestore";
 import ButtonCancel from "../components/Button/ButtonCancel.jsx";
+import MakeFormAvatar from "../components/MakeForm/MakeFormAvatar.jsx";
 
-export default function UpdatedPseudo() {
+export default function UpdatedAvatar() {
   // Variable
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -15,11 +15,11 @@ export default function UpdatedPseudo() {
   const [loading, setLoading] = useState(false);
 
   // Refs
-  const pseudoAccount = useRef("");
+  const avatarAccount = useRef("");
 
   // Functions
 
-  const handleNewPseudo = async () => {
+  const handleAvatar = async () => {
     try {
       const userDocRef = doc(usersDb, user.uid);
 
@@ -30,7 +30,7 @@ export default function UpdatedPseudo() {
       await setDoc(
         userDocRef,
         {
-          pseudo: pseudoAccount.current.value,
+          avatar: avatarAccount.current.value,
         },
         { merge: true },
       );
@@ -50,21 +50,23 @@ export default function UpdatedPseudo() {
             <path
               d="M6 12H18M6 12L11 7M6 12L11 17"
               stroke="#000000"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </ButtonCancel>
       </Link>
       <h1 className="text-3xl font-bold text-center my-10">
-        Changer de pseudo
+        Ajouter / Modifier un avatar
       </h1>
       <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5">
-        <MakeFormPseudo
+        <MakeFormAvatar
           disabled={loading}
-          pseudo={pseudoAccount}
-          onFormSubmittedHandler={handleNewPseudo}
+          avatar={avatarAccount}
+          onFormSubmittedHandler={handleAvatar}
+          label="Nouvel avatar"
+          type="text"
         />
       </div>
     </div>

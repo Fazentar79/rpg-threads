@@ -51,6 +51,7 @@ export default function AddThread() {
         message: message.current.value,
         date: serverTimestamp(),
       });
+
       setLoading(false);
       navigate("/");
       window.location.reload();

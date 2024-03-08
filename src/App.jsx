@@ -10,7 +10,6 @@ import { AuthContext } from "./store/AuthProvider";
 const Home = lazy(() => import("./pages/Home"));
 const Dashboard = lazy(() => import("./pages/Dashboard.jsx"));
 const Subscription = lazy(() => import("./pages/Subscription.jsx"));
-const Notifications = lazy(() => import("./pages/Notifications.jsx"));
 const Signup = lazy(() => import("./pages/Signup.jsx"));
 const Signin = lazy(() => import("./pages/SignIn.jsx"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword.jsx"));
@@ -18,9 +17,11 @@ const DeleteUserAccount = lazy(() => import("./pages/DeleteUserAccount.jsx"));
 const UpdatedPseudo = lazy(() => import("./pages/updatedPseudo.jsx"));
 const AddThread = lazy(() => import("./pages/AddThread.jsx"));
 const UpdatedThread = lazy(() => import("./pages/UpdatedThread.jsx"));
+const UpdatedAvatar = lazy(() => import("./pages/UpdatedAvatar.jsx"));
+const Profiles = lazy(() => import("./pages/Profiles.jsx"));
 
 export default function App() {
-  const { user, loading } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <>
@@ -41,12 +42,6 @@ export default function App() {
                   path: "/dashboard",
                   element: (
                     <Suspense>{user ? <Dashboard /> : <Signin />}</Suspense>
-                  ),
-                },
-                {
-                  path: "/notifications",
-                  element: (
-                    <Suspense>{user ? <Notifications /> : <Signin />}</Suspense>
                   ),
                 },
                 {
@@ -96,6 +91,14 @@ export default function App() {
                   ),
                 },
                 {
+                  path: "/updated-avatar",
+                  element: (
+                    <Suspense>
+                      <UpdatedAvatar />
+                    </Suspense>
+                  ),
+                },
+                {
                   path: "/updated-thread/:id",
                   element: (
                     <Suspense>
@@ -108,6 +111,14 @@ export default function App() {
                   element: (
                     <Suspense>
                       <AddThread />
+                    </Suspense>
+                  ),
+                },
+                {
+                  path: "/profiles/:id",
+                  element: (
+                    <Suspense>
+                      <Profiles />
                     </Suspense>
                   ),
                 },
