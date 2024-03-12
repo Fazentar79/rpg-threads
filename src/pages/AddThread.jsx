@@ -24,7 +24,7 @@ export default function AddThread() {
     try {
       const userSnapshot = await getDocs(usersDb);
 
-      const currentUserPseudo = userSnapshot.docs.map((doc) => {
+      userSnapshot.docs.map((doc) => {
         if (doc.data().userId === user.uid) {
           pseudo.push(doc.data().pseudo);
           return doc.data().pseudo;
@@ -36,14 +36,14 @@ export default function AddThread() {
       setLoading(false);
     }
 
-    onCreateNewThread(pseudo);
+    await onCreateNewThread(pseudo);
   };
 
   //Post a new thread
   const onCreateNewThread = async () => {
-    try {
-      const threadsDocRef = doc(threadsDb);
+    if (loading) return;
 
+    try {
       await addDoc(threadsDb, {
         pseudo: pseudo,
         userId: user.uid,
@@ -54,7 +54,7 @@ export default function AddThread() {
 
       setLoading(false);
       navigate("/");
-      window.location.reload();
+      setLoading(false);
     } catch (error) {
       console.error("Une erreur est survenue : ", error);
       setLoading(false);
@@ -62,16 +62,16 @@ export default function AddThread() {
   };
 
   return (
-    <div className="max-w-3xl m-auto bg-white">
+    <div className="max-w-3xl m-auto">
       <Link to="/">
         <ButtonCancel>
           <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
             <path
               d="M6 12H18M6 12L11 7M6 12L11 17"
               stroke="#000000"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </ButtonCancel>
@@ -79,7 +79,7 @@ export default function AddThread() {
       <h1 className="text-3xl font-bold text-center my-10">
         Créer un nouveau thread
       </h1>
-      <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5">
+      <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5 bg-white">
         <MakeForm
           disabled={loading}
           image={image}

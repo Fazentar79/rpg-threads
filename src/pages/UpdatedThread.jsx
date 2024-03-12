@@ -1,23 +1,19 @@
-import { useRef, useState, useContext } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { threadsDb } from "../firebase";
-import { AuthContext } from "../store/AuthProvider";
 import MakeFormThread from "../components/MakeForm/MakeFormThread.jsx";
 import ButtonCancel from "../components/Button/ButtonCancel.jsx";
 
 export default function UpdatedThread() {
   // Variable
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
   const { id } = useParams();
 
   // States
   const [loading, setLoading] = useState(false);
-  const [updateThread, setUpdateThread] = useState(false);
 
   // Refs
-  const image = useRef("");
   const message = useRef("");
 
   // Functions
@@ -46,16 +42,16 @@ export default function UpdatedThread() {
   };
 
   return (
-    <div className="max-w-3xl m-auto bg-white">
+    <div className="max-w-3xl m-auto">
       <Link to="/">
         <ButtonCancel>
           <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
             <path
               d="M6 12H18M6 12L11 7M6 12L11 17"
               stroke="#000000"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             />
           </svg>
         </ButtonCancel>
@@ -63,7 +59,7 @@ export default function UpdatedThread() {
       <h1 className="text-3xl font-bold text-center my-10">
         Modifier ou supprimer le thread
       </h1>
-      <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5">
+      <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5 bg-white">
         <MakeFormThread
           disabled={loading}
           message={message}
