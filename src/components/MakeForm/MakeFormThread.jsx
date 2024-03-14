@@ -40,7 +40,7 @@ export default function MakeFormThread({
         />
       </div>
       <Button type="submit" onClick={(e) => onBeforeSubmitHandler(e)}>
-        Modifier le thread
+        Modifier le message
       </Button>
     </form>
   );

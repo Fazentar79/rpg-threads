@@ -10,6 +10,7 @@
 
 html {
     min-width: 280px;
+    scroll-behavior: smooth;
 }
 
 body {

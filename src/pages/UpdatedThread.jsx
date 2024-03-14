@@ -42,29 +42,31 @@ export default function UpdatedThread() {
   };
 
   return (
-    <div className="max-w-3xl m-auto">
-      <Link to="/">
-        <ButtonCancel>
-          <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M6 12H18M6 12L11 7M6 12L11 17"
-              stroke="#000000"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </ButtonCancel>
-      </Link>
-      <h1 className="text-3xl font-bold text-center my-10">
-        Modifier ou supprimer le thread
-      </h1>
-      <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5 bg-white">
-        <MakeFormThread
-          disabled={loading}
-          message={message}
-          onFormSubmittedHandler={onUpdatedThread}
-        />
+    <div className="mt-40">
+      <div className="max-w-3xl m-auto">
+        <Link to="/">
+          <ButtonCancel>
+            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M6 12H18M6 12L11 7M6 12L11 17"
+                stroke="#000000"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </ButtonCancel>
+        </Link>
+        <h1 className="text-3xl font-bold text-center my-10">
+          Modifier le message
+        </h1>
+        <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5 bg-white">
+          <MakeFormThread
+            disabled={loading}
+            message={message}
+            onFormSubmittedHandler={onUpdatedThread}
+          />
+        </div>
       </div>
     </div>
   );

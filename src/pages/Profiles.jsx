@@ -115,62 +115,64 @@ export default function Profiles() {
 
   return (
     <ConnectedLayout>
-      <div className="max-w-3xl m-auto">
-        <Link to="/">
-          <ButtonCancel>
-            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M6 12H18M6 12L11 7M6 12L11 17"
-                stroke="#000000"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </ButtonCancel>
-        </Link>
+      <div className="mt-40">
+        <div className="max-w-3xl m-auto">
+          <Link to="/">
+            <ButtonCancel>
+              <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M6 12H18M6 12L11 7M6 12L11 17"
+                  stroke="#000000"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </ButtonCancel>
+          </Link>
 
-        <motion.div
-          variants={{
-            hidden: { opacity: 0, scale: 0.9 },
-            visible: { opacity: 1, scale: [0.9, 1.04, 0.9, 1] },
-          }}
-          transition={{
-            type: "spring",
-          }}
-          className="shadow-2xl shadow-black rounded-3xl p-5 m-5 flex flex-col items-center"
-        >
-          <h1 className="text-3xl text-center font-bold mb-10">
-            Profil de {pseudo}
-          </h1>
-          <img
-            src={avatar}
-            alt="avatar"
-            className="w-[200px] h-[200px] rounded-full mb-10 shadow-lg shadow-black"
-          />
-
-          <ButtonSubscription disabled={loading} onClick={handleSubscription}>
-            {subscribed ? "Se désabonner" : "s'abonner"}
-          </ButtonSubscription>
-        </motion.div>
-        {isLoading && <div className="text-center">Chargement...</div>}
-
-        {data?.length === 0 && (
-          <div className="text-center mt-10">Aucun thread à afficher</div>
-        )}
-
-        {subscribed && (
-          <div>
-            <h1 className="text-3xl text-center font-bold my-10">
-              Threads du compte
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, scale: 0.9 },
+              visible: { opacity: 1, scale: [0.9, 1.04, 0.9, 1] },
+            }}
+            transition={{
+              type: "spring",
+            }}
+            className="shadow-2xl shadow-black rounded-3xl p-5 m-5 flex flex-col items-center"
+          >
+            <h1 className="text-3xl text-center font-bold mb-10">
+              Profil de {pseudo}
             </h1>
-            {data?.map((thread) => (
-              <div key={thread.id} className="flex flex-col gap-5">
-                <Messagecard key={thread.image} ref={ref} threads={thread} />
-              </div>
-            ))}
-          </div>
-        )}
+            <img
+              src={avatar}
+              alt="avatar"
+              className="w-[200px] h-[200px] rounded-full mb-10 shadow-lg shadow-black"
+            />
+
+            <ButtonSubscription disabled={loading} onClick={handleSubscription}>
+              {subscribed ? "Se désabonner" : "s'abonner"}
+            </ButtonSubscription>
+          </motion.div>
+          {isLoading && <div className="text-center">Chargement...</div>}
+
+          {data?.length === 0 && (
+            <div className="text-center mt-10">Aucun thread à afficher</div>
+          )}
+
+          {subscribed && (
+            <div>
+              <h1 className="text-3xl text-center font-bold my-10">
+                Threads du compte
+              </h1>
+              {data?.map((thread) => (
+                <div key={thread.id} className="flex flex-col gap-5">
+                  <Messagecard key={thread.image} ref={ref} threads={thread} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
     </ConnectedLayout>
   );

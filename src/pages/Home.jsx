@@ -54,7 +54,7 @@ export default function Home() {
 
   return (
     <ConnectedLayout>
-      <div>
+      <div className="mt-40">
         <div className="flex justify-end">
           <ButtonPost disabled={loading}>
             <Link to="/add-thread">

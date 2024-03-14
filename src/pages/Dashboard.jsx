@@ -113,7 +113,7 @@ export default function Dashboard() {
         animate="visible"
         className="max-w-3xl m-auto"
       >
-        <h1 className="my-10 text-center text-3xl font-bold">Profil</h1>
+        <h1 className="mb-10 mt-40 text-center text-3xl font-bold">Profil</h1>
 
         <div className="flex flex-col justify-center items-center">
           {showAvatar ? (
