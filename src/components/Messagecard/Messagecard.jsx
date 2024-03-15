@@ -159,12 +159,14 @@ export default function Messagecard({ messageRef, threads, ...props }) {
     setLoading(false);
   };
 
+  // Check if the user has an avatar
   useEffect(() => {
     if (avatar) {
       setShowAvatar(true);
     }
   }, [avatar]);
 
+  // Check if the thread has an image
   useEffect(() => {
     const regex = /(http(s?):)([/.\w\s-])*\.(?:jpg|gif|png)/;
     if (threads.image && regex.test(threads.image)) {
@@ -172,6 +174,7 @@ export default function Messagecard({ messageRef, threads, ...props }) {
     }
   }, [threads.image]);
 
+  // Check if the user is connected
   useEffect(() => {
     if (threads.userId === user.uid) {
       setUserConnected(true);
