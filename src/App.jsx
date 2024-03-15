@@ -13,7 +13,6 @@ const Subscription = lazy(() => import("./pages/Subscription.jsx"));
 const Signup = lazy(() => import("./pages/Signup.jsx"));
 const Signin = lazy(() => import("./pages/SignIn.jsx"));
 const ForgotPassword = lazy(() => import("./pages/ForgotPassword.jsx"));
-const DeleteUserAccount = lazy(() => import("./pages/DeleteUserAccount.jsx"));
 const UpdatedPseudo = lazy(() => import("./pages/updatedPseudo.jsx"));
 const AddThread = lazy(() => import("./pages/AddThread.jsx"));
 const UpdatedThread = lazy(() => import("./pages/UpdatedThread.jsx"));
@@ -71,14 +70,6 @@ export default function App() {
                   element: (
                     <Suspense>
                       <ForgotPassword />
-                    </Suspense>
-                  ),
-                },
-                {
-                  path: "/delete-account",
-                  element: (
-                    <Suspense>
-                      <DeleteUserAccount />
                     </Suspense>
                   ),
                 },

@@ -1,6 +1,7 @@
 import Button from "../Button/Button.jsx";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
 export default function MakeForm({
   onFormSubmittedHandler,
@@ -58,3 +59,10 @@ export default function MakeForm({
     </form>
   );
 }
+
+MakeForm.propTypes = {
+  onFormSubmittedHandler: PropTypes.func.isRequired,
+  message: PropTypes.object.isRequired,
+  image: PropTypes.object.isRequired,
+  threads: PropTypes.object,
+};

@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../store/AuthProvider";
 
 export default function Signin() {
-  // Variables
   const {
     register,
     handleSubmit,
@@ -14,10 +13,8 @@ export default function Signin() {
   } = useForm();
   const { loginUser } = useContext(AuthContext);
 
-  // State
   const [loading, setLoading] = useState(false);
 
-  // Function
   const onSubmit = (data) => {
     if (loading) return;
 
@@ -41,7 +38,7 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex flex-col mt-[100px] items-center">
+    <div className="m-auto flex-col mt-40 max-w-3xl">
       <div className="shadow-lg shadow-black p-7 m-5 rounded-3xl">
         <div className="text-center text-lg mb-5">
           Se connecter sur Rpg Threads
@@ -60,7 +57,9 @@ export default function Signin() {
               },
             })}
           />
-          {errors.email && toast(errors.email.message, { autoClose: 5000 })}
+          {errors.email && (
+            <p className="text-red-400 text-xs mb-10">{errors.email.message}</p>
+          )}
           <input
             type="password"
             placeholder="Mot de passe"
@@ -69,25 +68,28 @@ export default function Signin() {
               required: true,
               minLength: {
                 value: 8,
-                message: "Le mot de passe doit contenir au moins 8 caractères",
+                message:
+                  "Votre mot de passe doit contenir au moins 8 caractères",
               },
             })}
           />
-          {errors.password &&
-            toast(errors.password.message, { autoClose: 5000 })}
-          <Button disabled={loading}>Se connecter</Button>
+          {errors.password && (
+            <p className="text-red-400 text-xs mb-10">
+              {errors.password.message}
+            </p>
+          )}
+          <Button disabled={loading} onClick={handleSubmit(onSubmit)}>
+            Se connecter
+          </Button>
         </form>
 
-        {/* Pass */}
         <div className="text-center mt-5">
           <div className="hover:text-blue-600 duration-150">
             <Link to="/forgot-password">Mot de passe oublié ?</Link>
           </div>
 
-          {/* Separator */}
           <hr className="my-5" />
 
-          {/* Sign */}
           <div className="hover:text-blue-600 duration-150">
             <Link to="/signup">Pas de compte ?</Link>
           </div>

@@ -10,15 +10,9 @@ import Messagecard from "../components/Messagecard/Messagecard";
 import ConnectedLayout from "../layouts/ConnectedLayout.jsx";
 
 export default function Home() {
-  //States
   const [loading, setLoading] = useState(false);
 
-  // Refs
   const ref = useRef(null);
-
-  // // Functions
-
-  // Get all threads
 
   const fetchThreads = async (threads) => {
     try {
@@ -36,11 +30,16 @@ export default function Home() {
     return threads.current;
   };
 
+  const handleThreadDeleted = () => {
+    refetch().then();
+  };
+
   const {
     data: threads,
     isLoading,
     isError,
     error,
+    refetch,
   } = useQuery({
     queryKey: ["threads"],
     queryFn: fetchThreads,
@@ -100,7 +99,12 @@ export default function Home() {
               }}
               className="m-auto w-full max-w-3xl"
             >
-              <Messagecard key={threads.image} ref={ref} threads={threads} />
+              <Messagecard
+                key={threads.image}
+                messageRef={ref}
+                threads={threads}
+                handleThreadDeleted={handleThreadDeleted}
+              />
             </motion.div>
           ))}
         </motion.div>

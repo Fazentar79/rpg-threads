@@ -167,7 +167,11 @@ export default function Profiles() {
               </h1>
               {data?.map((thread) => (
                 <div key={thread.id} className="flex flex-col gap-5">
-                  <Messagecard key={thread.image} ref={ref} threads={thread} />
+                  <Messagecard
+                    key={thread.image}
+                    messageRef={ref}
+                    threads={thread}
+                  />
                 </div>
               ))}
             </div>

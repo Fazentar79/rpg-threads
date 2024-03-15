@@ -8,7 +8,6 @@ import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { usersDb } from "../firebase";
 
 export default function Signup(content, options) {
-  //Variables
   const navigate = useNavigate();
   const {
     register,
@@ -17,7 +16,6 @@ export default function Signup(content, options) {
   } = useForm();
   const { createUser } = useContext(AuthContext);
 
-  //State
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (data) => {
@@ -48,12 +46,12 @@ export default function Signup(content, options) {
   };
 
   return (
-    <div className="flex flex-col mt-[100px] items-center">
+    <div className="m-auto mt-40 max-w-3xl">
       <div className="shadow-lg shadow-black p-7 m-5 rounded-3xl">
         <div className="text-center text-lg mb-5">
           S'inscrire sur Rpg Threads
         </div>
-        {/* Form */}
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <input
             type="email"
@@ -67,7 +65,9 @@ export default function Signup(content, options) {
               },
             })}
           />
-          {errors.email && toast(errors.email.message, { autoClose: 5000 })}
+          {errors.email && (
+            <p className="text-red-400 text-xs mb-10">{errors.email.message}</p>
+          )}
           <input
             type="text"
             placeholder="Pseudo"
@@ -84,7 +84,11 @@ export default function Signup(content, options) {
               },
             })}
           />
-          {errors.pseudo && toast(errors.pseudo.message, { autoClose: 5000 })}
+          {errors.pseudo && (
+            <p className="text-red-400 text-xs mb-10">
+              {errors.pseudo.message}
+            </p>
+          )}
           <input
             type="password"
             placeholder="Mot de passe"
@@ -97,12 +101,16 @@ export default function Signup(content, options) {
               },
             })}
           />
-          {errors.password &&
-            toast(errors.password.message, { autoClose: 5000 })}
-          <Button disabled={loading}>S'inscrire</Button>
+          {errors.password && (
+            <p className="text-red-400 text-xs mb-10">
+              {errors.password.message}
+            </p>
+          )}
+          <Button disabled={loading} onClick={handleSubmit(onSubmit)}>
+            S'inscrire
+          </Button>
         </form>
 
-        {/* Pass */}
         <div className="flex justify-center mt-5">
           <div className="cursor-pointer hover:text-blue-600 duration-150">
             <Link to="/signin">Déjà un compte ?</Link>

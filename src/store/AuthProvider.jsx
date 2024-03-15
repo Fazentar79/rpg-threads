@@ -4,8 +4,6 @@ import {
   signInWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
-  deleteUser,
-  reauthenticateWithCredential,
 } from "firebase/auth";
 import { createContext, useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
@@ -37,16 +35,8 @@ const AuthProvider = ({ children }) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
 
-  const reauthenticateUser = (user, credential) => {
-    return reauthenticateWithCredential(auth, user, credential);
-  };
-
   const passwordReset = (email) => {
     return sendPasswordResetEmail(auth, email);
-  };
-
-  const deleteUserAccount = (user) => {
-    return deleteUser(auth, user);
   };
 
   const authValue = useMemo(
@@ -56,20 +46,9 @@ const AuthProvider = ({ children }) => {
       logOut,
       createUser,
       loginUser,
-      reauthenticateUser,
       passwordReset,
-      deleteUserAccount,
     }),
-    [
-      user,
-      loading,
-      logOut,
-      createUser,
-      loginUser,
-      reauthenticateUser,
-      passwordReset,
-      deleteUserAccount,
-    ],
+    [user, loading, logOut, createUser, loginUser, passwordReset],
   );
 
   return (

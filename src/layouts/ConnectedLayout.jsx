@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { AuthContext } from "../store/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import PropTypes from "prop-types";
 
 export default function ConnectedLayout({ children }) {
-  // Variables
   const { user, loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -20,3 +20,7 @@ export default function ConnectedLayout({ children }) {
 
   return <>{children}</>;
 }
+
+ConnectedLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};

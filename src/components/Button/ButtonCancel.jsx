@@ -1,3 +1,5 @@
+import PropTypes from "prop-types";
+
 export default function ButtonCancel({ children, onClick, disabled }) {
   return (
     <button
@@ -9,3 +11,9 @@ export default function ButtonCancel({ children, onClick, disabled }) {
     </button>
   );
 }
+
+ButtonCancel.propTypes = {
+  children: PropTypes.node,
+  onClick: PropTypes.func,
+  disabled: PropTypes.bool,
+};

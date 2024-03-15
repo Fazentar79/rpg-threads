@@ -11,22 +11,16 @@ import { toast } from "react-toastify";
 import Messagecard from "../components/Messagecard/Messagecard.jsx";
 
 export default function Dashboard() {
-  // Variables
   const { user } = useContext(AuthContext);
   const { logOut } = useContext(AuthContext);
-  const { deleteUserAccount } = useContext(AuthContext);
 
-  // States
   const [loading, setLoading] = useState(false);
   const [pseudo, setPseudo] = useState("");
   const [creationDate, setCreationDate] = useState("");
   const [avatar, setAvatar] = useState("");
   const [showAvatar, setShowAvatar] = useState(false);
 
-  // Refs
   const ref = useRef(null);
-
-  //Functions
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -65,7 +59,6 @@ export default function Dashboard() {
   }, [avatar]);
 
   // Get all threads for user connected
-
   const fetchAllThreadsUser = async () => {
     try {
       const threadsQuery = query(
@@ -190,12 +183,6 @@ export default function Dashboard() {
             <p className="my-3 hover:text-blue-600 duration-150">
               <Link to="/forgot-password">Modifier le mot de passe</Link>
             </p>
-            <Link
-              to="/delete-account"
-              className="text-red-600 hover:font-bold duration-150 cursor-pointer"
-            >
-              Supprimer le compte
-            </Link>
           </div>
           <div className="mt-10">
             <Button onClick={() => logOut()}> Déconnexion </Button>
@@ -236,7 +223,11 @@ export default function Dashboard() {
                 }}
                 className="m-auto w-full max-w-3xl"
               >
-                <Messagecard key={thread.image} ref={ref} threads={thread} />
+                <Messagecard
+                  key={thread.image}
+                  messageRef={ref}
+                  threads={thread}
+                />
               </motion.div>
             ))}
           </motion.div>
