@@ -55,7 +55,7 @@ export default function Signup(content, options) {
           date: serverTimestamp(),
         });
         setLoading(false);
-        navigate("/dashboard");
+        navigate("/");
       })
       .catch((error) => {
         setLoading(false);

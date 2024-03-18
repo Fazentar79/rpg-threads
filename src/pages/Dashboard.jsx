@@ -50,7 +50,7 @@ export default function Dashboard() {
     };
 
     fetchUsers().then();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (avatar) {

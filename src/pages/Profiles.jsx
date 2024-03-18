@@ -113,11 +113,13 @@ export default function Profiles() {
       );
       await updateDoc(userDocRef, { subscriptions });
       setSubscribed(false);
+      toast("Vous vous êtes désabonné avec succès", { type: "success" });
     } else {
       // Subscribe
       subscriptions.push(id);
       await updateDoc(userDocRef, { subscriptions });
       setSubscribed(true);
+      toast("Vous vous êtes abonné avec succès", { type: "success" });
     }
   };
 

@@ -5,6 +5,7 @@ import { threadsDb } from "../firebase";
 import MakeFormThread from "../components/MakeForm/MakeFormThread.jsx";
 import ButtonCancel from "../components/Button/ButtonCancel.jsx";
 import ConnectedLayout from "../layouts/ConnectedLayout.jsx";
+import { toast } from "react-toastify";
 
 export default function UpdatedThread() {
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ export default function UpdatedThread() {
 
       setLoading(false);
       navigate("/");
+      toast("Message modifié avec succès", { type: "success" });
     } catch (error) {
       console.error("Error updating document: ", error);
     }

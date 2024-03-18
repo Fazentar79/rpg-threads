@@ -6,6 +6,7 @@ import { doc, setDoc } from "firebase/firestore";
 import ButtonCancel from "../components/Button/ButtonCancel.jsx";
 import MakeFormAvatar from "../components/MakeForm/MakeFormAvatar.jsx";
 import ConnectedLayout from "../layouts/ConnectedLayout.jsx";
+import { toast } from "react-toastify";
 
 export default function UpdatedAvatar() {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ export default function UpdatedAvatar() {
 
       setLoading(false);
       navigate("/dashboard");
+      toast("Votre avatar a été mis à jour avec succès", { type: "success" });
     } catch (error) {
       console.error("Error updating document: ", error);
     }

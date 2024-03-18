@@ -30,6 +30,7 @@ export default function Messagecard({ messageRef, threads, ...props }) {
   const [showImage, setShowImage] = useState(false);
   const [userConnected, setUserConnected] = useState(false);
   const [avatar, setAvatar] = useState("");
+  const [pseudo, setPseudo] = useState("");
   const [showAvatar, setShowAvatar] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [addComment, setAddComment] = useState(false);
@@ -77,8 +78,10 @@ export default function Messagecard({ messageRef, threads, ...props }) {
           ?.data();
 
         const messageAuthorAvatar = messageAuthorData?.avatar;
+        const messageAuthorPseudo = messageAuthorData?.pseudo;
 
         setAvatar(messageAuthorAvatar);
+        setPseudo(messageAuthorPseudo);
         setLoading(false);
       } catch (error) {
         console.error("Une erreur est survenue : ", error);
@@ -126,13 +129,13 @@ export default function Messagecard({ messageRef, threads, ...props }) {
         userId: user.uid,
         threadId: threads.id,
         date: serverTimestamp(),
-        pseudo: userData?.pseudo,
         avatar: userData?.avatar || defaultAvatar,
       });
 
       setLoading(false);
       setAddComment(false);
       refetch().then((r) => r);
+      toast("Commentaire ajouté avec succès", { type: "success" });
     } catch (error) {
       console.error("Erreur: ", error);
     }
@@ -153,6 +156,7 @@ export default function Messagecard({ messageRef, threads, ...props }) {
       setLoading(true);
       setShowUpdateComment(false);
       refetch().then((r) => r);
+      toast("Commentaire modifié avec succès", { type: "success" });
     } catch (error) {
       console.error("Erreur: ", error);
     }
@@ -193,6 +197,7 @@ export default function Messagecard({ messageRef, threads, ...props }) {
 
       navigate("/");
       setLoading(true);
+      toast("Message supprimé avec succès", { type: "success" });
     } catch (error) {
       console.error("Erreur: ", error);
     }
@@ -209,6 +214,7 @@ export default function Messagecard({ messageRef, threads, ...props }) {
 
       refetch().then((r) => r);
       setLoading(true);
+      toast("Commentaire supprimé avec succès", { type: "success" });
     } catch (error) {
       console.error("Erreur: ", error);
     }
@@ -271,11 +277,11 @@ export default function Messagecard({ messageRef, threads, ...props }) {
                   to={`/profiles/${threads.userId}`}
                   className="hover:underline"
                 >
-                  {threads.pseudo}
+                  {pseudo}
                 </Link>
               ) : (
                 <Link to={`/Dashboard`} className="hover:underline">
-                  {threads.pseudo}
+                  {pseudo}
                 </Link>
               )}
             </div>
@@ -356,7 +362,21 @@ export default function Messagecard({ messageRef, threads, ...props }) {
           >
             {/*If the comments are displayed, display the hide comments button, otherwise display the show comments button*/}
             {showComments ? (
-              "Cacher les commentaires"
+              <svg
+                width="20px"
+                height="20px"
+                viewBox="0 0 24 24"
+                fill="none"
+                className="me-10 cursor-pointer hover:scale-125 transition duration-300 ease-in-out"
+              >
+                <path
+                  d="M9.5 9.4185L14.5 14.4185M14.5 9.4185L9.5 14.4185M21.0039 12C21.0039 16.9706 16.9745 21 12.0039 21C9.9675 21 3.00463 21 3.00463 21C3.00463 21 4.56382 17.2561 3.93982 16.0008C3.34076 14.7956 3.00391 13.4372 3.00391 12C3.00391 7.02944 7.03334 3 12.0039 3C16.9745 3 21.0039 7.02944 21.0039 12Z"
+                  stroke="#000000"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             ) : (
               <svg
                 width="20px"
@@ -391,7 +411,21 @@ export default function Messagecard({ messageRef, threads, ...props }) {
             >
               {/*If the user is connected, display the add comment button, otherwise display the hide add comment button*/}
               {addComment ? (
-                "Cacher l'ajout de commentaire"
+                <svg
+                  width="20px"
+                  height="20px"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  className="cursor-pointer hover:scale-125 transition duration-300 ease-in-out"
+                >
+                  <path
+                    d="M13.325 7.67505L17.411 3.58902C18.192 2.80797 19.4584 2.80797 20.2394 3.58902C21.0205 4.37007 21.0205 5.6364 20.2394 6.41745L16.1534 10.5035M10.5 10.5L6.1026 14.8974C5.50491 15.4951 5.20606 15.7939 4.95434 16.1276C4.73078 16.424 4.53521 16.7404 4.37014 17.0729C4.18427 17.4473 4.05063 17.8483 3.78337 18.6501L3.00024 20.9998L5.43419 20.0599C6.14139 19.7868 6.495 19.6503 6.82584 19.4723C7.11972 19.3142 7.39989 19.1318 7.66345 18.9271C7.96016 18.6967 8.22819 18.4287 8.76425 17.8926L13.3284 13.3284M9.65685 17H7L7 14M3 3L21 21"
+                    stroke="#000000"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               ) : (
                 <svg
                   width="20px"
@@ -470,14 +504,14 @@ export default function Messagecard({ messageRef, threads, ...props }) {
                         to={`/profiles/${comment.userId}`}
                         className="font-bold hover:underline"
                       >
-                        {comment.pseudo}
+                        {pseudo}
                       </Link>
                     ) : (
                       <Link
                         to={`/Dashboard`}
                         className="font-bold hover:underline"
                       >
-                        {comment.pseudo}
+                        {pseudo}
                       </Link>
                     )}
                   </div>

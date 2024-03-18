@@ -3,9 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useContext, useRef, useState } from "react";
 import { AuthContext } from "../store/AuthProvider";
 import { usersDb } from "../firebase.js";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import ButtonCancel from "../components/Button/ButtonCancel.jsx";
 import ConnectedLayout from "../layouts/ConnectedLayout.jsx";
+import { toast } from "react-toastify";
 
 export default function UpdatedPseudo() {
   const navigate = useNavigate();
@@ -15,6 +16,13 @@ export default function UpdatedPseudo() {
 
   const pseudoAccount = useRef("");
 
+  // Check pseudo is existed in database
+  const checkPseudo = async (pseudo) => {
+    const pseudoRef = query(usersDb, where("pseudo", "==", pseudo));
+    const querySnapshot = await getDocs(pseudoRef);
+    return !querySnapshot.empty;
+  };
+
   const handleNewPseudo = async () => {
     try {
       const userDocRef = doc(usersDb, user.uid);
@@ -22,6 +30,13 @@ export default function UpdatedPseudo() {
       if (loading) return;
 
       setLoading(true);
+
+      const pseudoExists = await checkPseudo(pseudoAccount.current.value);
+
+      if (pseudoExists) {
+        setLoading(false);
+        return toast.error("Ce pseudo est déjà utilisé.");
+      }
 
       await setDoc(
         userDocRef,
@@ -33,6 +48,7 @@ export default function UpdatedPseudo() {
 
       setLoading(false);
       navigate("/dashboard");
+      toast.success("Votre pseudo a été mis à jour avec succès.");
     } catch (error) {
       console.error("Error updating document: ", error);
     }

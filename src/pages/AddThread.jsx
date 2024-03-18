@@ -6,6 +6,7 @@ import { threadsDb, usersDb } from "../firebase";
 import { AuthContext } from "../store/AuthProvider";
 import ButtonCancel from "../components/Button/ButtonCancel.jsx";
 import ConnectedLayout from "../layouts/ConnectedLayout.jsx";
+import { toast } from "react-toastify";
 
 export default function AddThread() {
   //Variables
@@ -60,6 +61,7 @@ export default function AddThread() {
 
       setLoading(false);
       navigate("/");
+      toast("Votre message à bien été posté", { type: "success" });
     } catch (error) {
       console.error("Une erreur est survenue : ", error);
       setLoading(false);
