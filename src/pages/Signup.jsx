@@ -4,11 +4,19 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { useState, useContext } from "react";
 import { AuthContext } from "../store/AuthProvider";
-import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+import {
+  setDoc,
+  query,
+  where,
+  getDocs,
+  doc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { usersDb } from "../firebase";
 
 export default function Signup(content, options) {
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -18,10 +26,25 @@ export default function Signup(content, options) {
 
   const [loading, setLoading] = useState(false);
 
+  // Function to check pseudo is existed in the database
+  const checkPseudo = async (pseudo) => {
+    const pseudoRef = query(usersDb, where("pseudo", "==", pseudo));
+    const querySnapshot = await getDocs(pseudoRef);
+    return !querySnapshot.empty;
+  };
+
+  // Function to create a new user in the database
   const onSubmit = async (data) => {
     if (loading) return;
 
     setLoading(true);
+
+    const pseudoExists = await checkPseudo(data.pseudo);
+
+    if (pseudoExists) {
+      setLoading(false);
+      return toast.error("Ce pseudo est déjà utilisé.");
+    }
 
     createUser(data.email, data.password)
       .then((userCredential) => {
@@ -64,6 +87,7 @@ export default function Signup(content, options) {
                 message: "Entrez une adresse e-mail valide",
               },
             })}
+            autoFocus={true}
           />
           {errors.email && (
             <p className="text-red-400 text-xs mb-10">{errors.email.message}</p>

@@ -227,6 +227,9 @@ export default function Dashboard() {
                   key={thread.image}
                   messageRef={ref}
                   threads={thread}
+                  handleThreadDeleted={() => {
+                    toast.success("Thread supprimé avec succès");
+                  }}
                 />
               </motion.div>
             ))}

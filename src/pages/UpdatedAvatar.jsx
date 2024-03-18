@@ -40,7 +40,7 @@ export default function UpdatedAvatar() {
 
   return (
     <ConnectedLayout>
-      <div className="max-w-3xl m-auto bg-white">
+      <div className="max-w-3xl m-auto mt-40">
         <Link to="/dashboard">
           <ButtonCancel>
             <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
@@ -57,7 +57,7 @@ export default function UpdatedAvatar() {
         <h1 className="text-3xl font-bold text-center my-10">
           Ajouter / Modifier un avatar
         </h1>
-        <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5">
+        <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5 bg-white">
           <MakeFormAvatar
             disabled={loading}
             avatar={avatarAccount}

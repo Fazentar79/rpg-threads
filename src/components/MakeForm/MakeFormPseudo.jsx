@@ -39,6 +39,7 @@ export default function MakeFormPseudo({
           ref={pseudo}
           placeholder="Pseudo"
           className="w-full border p-2 rounded-lg"
+          autoFocus={true}
         />
       </div>
       <Button type="submit" onClick={(e) => onBeforeSubmitHandler(e)}>

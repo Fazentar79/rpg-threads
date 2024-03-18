@@ -40,7 +40,7 @@ export default function UpdatedPseudo() {
 
   return (
     <ConnectedLayout>
-      <div className="max-w-3xl m-auto bg-white">
+      <div className="max-w-3xl m-auto mt-40">
         <Link to="/dashboard">
           <ButtonCancel>
             <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
@@ -57,7 +57,7 @@ export default function UpdatedPseudo() {
         <h1 className="text-3xl font-bold text-center my-10">
           Changer de pseudo
         </h1>
-        <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5">
+        <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5 bg-white">
           <MakeFormPseudo
             disabled={loading}
             pseudo={pseudoAccount}

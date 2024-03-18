@@ -41,6 +41,7 @@ export default function MakeForm({
           ref={message}
           placeholder="Message"
           className="w-full border p-2 rounded-lg"
+          autoFocus={true}
         />
       </div>
       <div className="mb-5">

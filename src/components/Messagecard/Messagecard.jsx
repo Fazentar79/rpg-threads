@@ -428,6 +428,7 @@ export default function Messagecard({ messageRef, threads, ...props }) {
                   id="comment"
                   placeholder="Ajouter un commentaire"
                   ref={comment}
+                  autoFocus={true}
                 />
 
                 <button

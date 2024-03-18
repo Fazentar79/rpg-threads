@@ -67,7 +67,7 @@ export default function PasswordReset() {
             Réinitialiser le mot de passe
           </h2>
 
-          <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5">
+          <div className="shadow-2xl shadow-black rounded-3xl p-5 m-5 bg-white">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-5">
                 <input
@@ -83,6 +83,7 @@ export default function PasswordReset() {
                       message: "Entrez une adresse e-mail valide",
                     },
                   })}
+                  autoFocus={true}
                 />
                 {errors.email &&
                   toast(errors.email.message, { autoClose: 5000 })}

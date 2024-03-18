@@ -38,6 +38,7 @@ export default function MakeFormThread({
           ref={message}
           placeholder="Message"
           className="w-full border p-2 rounded-lg"
+          autoFocus={true}
         />
       </div>
       <Button type="submit" onClick={(e) => onBeforeSubmitHandler(e)}>

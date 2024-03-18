@@ -30,7 +30,7 @@ export default function Signin() {
         if (code === "auth/user-not-found") {
           toast.error("Cet email n'existe pas.");
         } else if (code === "auth/invalid-credential") {
-          toast.error("La combinaison est incorrecte.");
+          toast.error("La combinaison email/mot de passe est incorrecte.");
         } else {
           toast.error(code);
         }
@@ -56,6 +56,7 @@ export default function Signin() {
                 message: "Entrez une adresse e-mail valide",
               },
             })}
+            autoFocus={true}
           />
           {errors.email && (
             <p className="text-red-400 text-xs mb-10">{errors.email.message}</p>
