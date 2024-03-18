@@ -31,6 +31,7 @@ export default function Messagecard({ messageRef, threads, ...props }) {
   const [userConnected, setUserConnected] = useState(false);
   const [avatar, setAvatar] = useState("");
   const [pseudo, setPseudo] = useState("");
+  const [commentsPseudo, setCommentsPseudo] = useState([]);
   const [showAvatar, setShowAvatar] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [addComment, setAddComment] = useState(false);
@@ -47,12 +48,15 @@ export default function Messagecard({ messageRef, threads, ...props }) {
       try {
         const userSnapshot = await getDocs(usersDb);
 
-        userSnapshot.docs
+        const pseudoUserData = userSnapshot.docs
           .find((doc) => {
             return doc.data().userId === user.uid;
           })
           ?.data();
 
+        const pseudoUser = pseudoUserData?.pseudo;
+
+        setCommentsPseudo(pseudoUser);
         setLoading(false);
       } catch (error) {
         console.error("Une erreur est survenue : ", error);
@@ -504,14 +508,14 @@ export default function Messagecard({ messageRef, threads, ...props }) {
                         to={`/profiles/${comment.userId}`}
                         className="font-bold hover:underline"
                       >
-                        {pseudo}
+                        {commentsPseudo}
                       </Link>
                     ) : (
                       <Link
                         to={`/Dashboard`}
                         className="font-bold hover:underline"
                       >
-                        {pseudo}
+                        {commentsPseudo}
                       </Link>
                     )}
                   </div>
