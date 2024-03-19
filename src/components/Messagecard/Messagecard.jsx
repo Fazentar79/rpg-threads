@@ -31,7 +31,7 @@ export default function Messagecard({ messageRef, threads, ...props }) {
   const [userConnected, setUserConnected] = useState(false);
   const [avatar, setAvatar] = useState("");
   const [pseudo, setPseudo] = useState("");
-  const [commentsPseudo, setCommentsPseudo] = useState([]);
+  const [userPseudo, setUserPseudo] = useState([]);
   const [showAvatar, setShowAvatar] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [addComment, setAddComment] = useState(false);
@@ -39,33 +39,6 @@ export default function Messagecard({ messageRef, threads, ...props }) {
 
   const comment = useRef("");
   const updatedComment = useRef("");
-
-  // Fetch user data
-  useEffect(() => {
-    const fetchUserData = async () => {
-      if (loading) return;
-
-      try {
-        const userSnapshot = await getDocs(usersDb);
-
-        const pseudoUserData = userSnapshot.docs
-          .find((doc) => {
-            return doc.data().userId === user.uid;
-          })
-          ?.data();
-
-        const pseudoUser = pseudoUserData?.pseudo;
-
-        setCommentsPseudo(pseudoUser);
-        setLoading(false);
-      } catch (error) {
-        console.error("Une erreur est survenue : ", error);
-        setLoading(false);
-      }
-    };
-
-    fetchUserData().then();
-  }, []);
 
   // Fetch user thread data for retrieve user avatar
   useEffect(() => {
@@ -106,13 +79,32 @@ export default function Messagecard({ messageRef, threads, ...props }) {
       );
       const commentsSnapshot = await getDocs(commentsQuery);
       const comments = commentsSnapshot.docs.map((doc) => {
-        return { id: doc.id, ...doc.data() };
+        return { id: doc.id, userId: doc.data().userId, ...doc.data() };
       });
       setLoading(false);
       return comments;
     } catch (error) {
       console.error("Une erreur est survenue : ", error);
       setLoading(false);
+    }
+  };
+
+  // Fetch user pseudo
+  useEffect(() => {
+    fetchAllUserPseudos().then();
+  }, []);
+
+  // Fetch user thread data for retrieve user pseudo
+  const fetchAllUserPseudos = async () => {
+    try {
+      const userSnapshot = await getDocs(usersDb);
+      const pseudos = {};
+      userSnapshot.docs.forEach((doc) => {
+        pseudos[doc.data().userId] = doc.data().pseudo;
+      });
+      setUserPseudo(pseudos);
+    } catch (error) {
+      console.error("Une erreur est survenue : ", error);
     }
   };
 
@@ -508,14 +500,14 @@ export default function Messagecard({ messageRef, threads, ...props }) {
                         to={`/profiles/${comment.userId}`}
                         className="font-bold hover:underline"
                       >
-                        {commentsPseudo}
+                        {userPseudo[comment.userId]}
                       </Link>
                     ) : (
                       <Link
                         to={`/Dashboard`}
                         className="font-bold hover:underline"
                       >
-                        {commentsPseudo}
+                        {userPseudo[comment.userId]}
                       </Link>
                     )}
                   </div>
