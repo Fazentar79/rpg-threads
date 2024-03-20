@@ -101,6 +101,7 @@ export default function Profiles() {
     }
   }, [error, isError]);
 
+  // Handle subscription
   const handleSubscription = async () => {
     const userDocRef = doc(usersDb, user.uid);
     const userDocSnapshot = await getDoc(userDocRef);
@@ -126,7 +127,20 @@ export default function Profiles() {
   return (
     <ConnectedLayout>
       <div className="mt-40">
-        <div className="max-w-3xl m-auto">
+        <motion.div
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.15,
+              },
+            },
+          }}
+          initial="hidden"
+          animate="visible"
+          className="max-w-3xl m-auto"
+        >
           <Link to="/">
             <ButtonCancel>
               <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none">
@@ -182,27 +196,42 @@ export default function Profiles() {
           </motion.div>
           {isLoading && <div className="text-center">Chargement...</div>}
 
-          {data?.length === 0 && (
-            <div className="text-center mt-10">Aucun thread à afficher</div>
-          )}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.15,
+                },
+              },
+            }}
+            initial="hidden"
+            animate="visible"
+            className="max-w-7xl m-auto p-5"
+          >
+            {data?.length === 0 && (
+              <div className="text-center mt-10">Aucun thread à afficher</div>
+            )}
 
-          {subscribed && (
-            <div>
-              <h1 className="text-3xl text-center font-bold my-10">
-                Threads du compte
-              </h1>
-              {data?.map((thread) => (
-                <div key={thread.id} className="flex flex-col gap-5">
-                  <Messagecard
-                    key={thread.image}
-                    messageRef={ref}
-                    threads={thread}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+            {subscribed && (
+              <div>
+                <h1 className="text-3xl text-center font-bold my-10">
+                  Threads du compte
+                </h1>
+                {data?.map((thread) => (
+                  <div key={thread.id} className="m-auto w-full max-w-3xl">
+                    <Messagecard
+                      key={thread.image}
+                      messageRef={ref}
+                      threads={thread}
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
+          </motion.div>
+        </motion.div>
       </div>
     </ConnectedLayout>
   );
